@@ -108,6 +108,86 @@
       new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? start() : stop(); }).observe(canvas);
     }
     start();
+
+    /* Interaction: hovering leaves a light trail of live cells, dragging draws a solid line, and a click
+       or tap bursts a cluster of cells with four gliders flying outward. Off under reduced motion. */
+    const hero = canvas.parentElement;
+    if (animate && ctx && hero) {
+      const wrap = (v, n) => ((v % n) + n) % n;
+      const cellAt = (e) => {
+        const r = canvas.getBoundingClientRect();
+        return [Math.floor((e.clientX - r.left) / CELL), Math.floor((e.clientY - r.top) / CELL)];
+      };
+      // A freshly seeded cell is drawn brighter at once; the trail fade then settles it into the field.
+      const flash = (x, y) => {
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.fillStyle = accent;
+        ctx.globalAlpha = 0.55;
+        ctx.fillRect(x * CELL, y * CELL, CELL - GAP, CELL - GAP);
+        ctx.globalAlpha = 1;
+      };
+      const seedCell = (x, y) => {
+        x = wrap(x, w); y = wrap(y, h);
+        cells[y * w + x] = 1;
+        flash(x, y);
+      };
+      // Seed a small random cluster so the path turns into structures instead of dying in one step.
+      const seedAround = (x, y) => {
+        seedCell(x, y);
+        for (let k = 0; k < 2; k++) if (Math.random() < 0.6) seedCell(x + Math.round(Math.random() * 2 - 1), y + Math.round(Math.random() * 2 - 1));
+      };
+      const stamp = (x, y, sx, sy) => {
+        for (const [dx, dy] of GLIDER) seedCell(x + (sx === 1 ? dx : 2 - dx), y + (sy === 1 ? dy : 2 - dy));
+      };
+
+      // A solid brush for drags: the cell plus its 4 neighbours, so the drawn line is clearly visible.
+      const seedBrush = (x, y) => {
+        seedCell(x, y); seedCell(x + 1, y); seedCell(x - 1, y); seedCell(x, y + 1); seedCell(x, y - 1);
+      };
+      // Click or tap: a dense disc of cells that bursts into activity, plus four gliders flying outward.
+      const burst = (x, y) => {
+        for (let dy = -3; dy <= 3; dy++)
+          for (let dx = -3; dx <= 3; dx++) if (dx * dx + dy * dy <= 10 && Math.random() < 0.55) seedCell(x + dx, y + dy);
+        stamp(x + 4, y + 4, 1, 1);
+        stamp(x - 6, y + 4, -1, 1);
+        stamp(x + 4, y - 6, 1, -1);
+        stamp(x - 6, y - 6, -1, -1);
+      };
+      const excluded = (e) => e.target.closest('a, button, input, select, textarea, .demo');
+
+      let px = null, py = null, drawing = null; // drawing = id of the pointer that is pressed, or null
+      const trace = (x, y, seed) => {
+        if (px === null) seed(x, y);
+        else {
+          // Fill the cells between samples so fast moves still leave a continuous trail.
+          const n = Math.max(Math.abs(x - px), Math.abs(y - py));
+          for (let s = 1; s <= n; s++) seed(Math.round(px + ((x - px) * s) / n), Math.round(py + ((y - py) * s) / n));
+        }
+        px = x; py = y;
+      };
+      hero.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0 || excluded(e)) return;
+        if (e.pointerType === 'mouse') e.preventDefault(); // drag draws instead of selecting text
+        drawing = e.pointerId;
+        const [x, y] = cellAt(e);
+        burst(x, y);
+        px = x; py = y;
+      });
+      hero.addEventListener('pointermove', (e) => {
+        const pressed = drawing === e.pointerId;
+        // Touch: only a press-and-drag draws (vertical swipes still scroll the page, see touch-action in CSS).
+        if (e.pointerType === 'touch' && !pressed) return;
+        const [x, y] = cellAt(e);
+        if (x === px && y === py) return;
+        trace(x, y, pressed ? seedBrush : seedAround);
+      }, { passive: true });
+      const release = (e) => { if (drawing === e.pointerId) drawing = null; };
+      // Listen on window so letting go outside the hero still ends the drag.
+      window.addEventListener('pointerup', release);
+      window.addEventListener('pointercancel', (e) => { release(e); px = py = null; });
+      hero.addEventListener('pointerleave', () => { px = py = null; });
+      hero.classList.add('life-interactive');
+    }
   }
 
   /* ---------------------------------------------------------------- live masking demo (one arrival, ≤ 1.2 s, then calm) */
