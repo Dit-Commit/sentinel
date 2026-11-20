@@ -194,6 +194,15 @@
     }
   }
 
+  /* ---------------------------------------------------------------- top bar over the hero */
+  // The glass bar takes the dark tokens while the (always dark) hero is behind it.
+  const barWrap = document.querySelector('.bar-wrap');
+  const heroEl = document.querySelector('.hero');
+  if (barWrap && heroEl && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => barWrap.classList.toggle('on-hero', e.isIntersecting),
+      { rootMargin: '0px 0px -92% 0px' }).observe(heroEl);
+  }
+
   /* ---------------------------------------------------------------- reveal on scroll */
   const reveals = document.querySelectorAll('.reveal, .scale');
   if ('IntersectionObserver' in window && !reduced()) {
