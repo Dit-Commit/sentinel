@@ -227,8 +227,11 @@
       gCap.innerHTML = '';
       const t = document.createElement('b'); t.textContent = s.dataset.title;
       gCap.append(t, ' ' + s.dataset.caption);
-      // Warm the next page so the arrow never shows a blank frame.
-      gSlides[(g + 1) % gSlides.length].querySelectorAll('img').forEach((i) => { i.loading = 'eager'; });
+      // Load images on demand: this page and the next one. Only the current theme's image is fetched
+      // (the other is display: none), so a visitor who never clicks downloads two screenshots.
+      for (const k of [g, (g + 1) % gSlides.length]) {
+        gSlides[k].querySelectorAll('img[data-src]').forEach((i) => { i.loading = 'lazy'; i.src = i.dataset.src; i.removeAttribute('data-src'); });
+      }
     };
     gallery.querySelectorAll('[data-gprev]').forEach((b) => b.addEventListener('click', () => show(g - 1)));
     gallery.querySelectorAll('[data-gnext]').forEach((b) => b.addEventListener('click', () => show(g + 1)));

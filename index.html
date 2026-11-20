@@ -14,7 +14,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/site.css?v=20261121c">
+  <link rel="stylesheet" href="assets/site.css?v=20261121d">
   <script>
     document.documentElement.classList.add('js');
     try {
@@ -311,36 +311,28 @@
           <button type="button" class="gallery-arrow side prev" data-gprev aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
           <div class="gallery-frame">
           <figure class="gallery-slide is-active" data-title="Home" data-caption="The week at a glance: stopped attempts, the most important incidents, shadow AI and the riskiest people.">
-            <img class="shot-light" src="assets/img/dash/home-light.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard, Home page">
-            <img class="shot-dark" src="assets/img/dash/home-dark.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard, Home page">
+            <img class="shot-light" src="assets/img/dash/home-light.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard: Home">
+            <img class="shot-dark" src="assets/img/dash/home-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard: Home">
           </figure>
-          <figure class="gallery-slide" data-title="Analysis" data-caption="Trends over time, and what was stopped by data type, AI tool and team." aria-hidden="true">
-            <img class="shot-light" src="assets/img/dash/analysis-light.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Analysis page">
-            <img class="shot-dark" src="assets/img/dash/analysis-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Analysis page">
+          <figure class="gallery-slide" data-title="Incident inbox" data-caption="Each incident with its masked evidence. Resolve or dismiss it with a note; J, K, E and D on the keyboard." aria-hidden="true">
+            <img class="shot-light" data-src="assets/img/dash/inbox-light.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: Incident inbox">
+            <img class="shot-dark" data-src="assets/img/dash/inbox-dark.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: Incident inbox">
           </figure>
-          <figure class="gallery-slide" data-title="Incident inbox" data-caption="Review each incident with its masked evidence, then resolve or dismiss it with a note. J, K, E and D on the keyboard." aria-hidden="true">
-            <img class="shot-light" src="assets/img/dash/inbox-light.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Incident inbox page">
-            <img class="shot-dark" src="assets/img/dash/inbox-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Incident inbox page">
-          </figure>
-          <figure class="gallery-slide" data-title="Logs" data-caption="Every event from every sensor: search, filter by tool, team or data type, and export to CSV." aria-hidden="true">
-            <img class="shot-light" src="assets/img/dash/logs-light.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Logs page">
-            <img class="shot-dark" src="assets/img/dash/logs-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Logs page">
+          <figure class="gallery-slide" data-title="AI tools" data-caption="The shadow-AI inventory: how many people use each tool and what data went in. Approve it or block it." aria-hidden="true">
+            <img class="shot-light" data-src="assets/img/dash/ai-tools-light.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: AI tools">
+            <img class="shot-dark" data-src="assets/img/dash/ai-tools-dark.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: AI tools">
           </figure>
           <figure class="gallery-slide" data-title="Policies" data-caption="Company, department and person policies that inherit field by field, summarised in plain words." aria-hidden="true">
-            <img class="shot-light" src="assets/img/dash/policies-light.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Policies page">
-            <img class="shot-dark" src="assets/img/dash/policies-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Policies page">
+            <img class="shot-light" data-src="assets/img/dash/policies-light.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: Policies">
+            <img class="shot-dark" data-src="assets/img/dash/policies-dark.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: Policies">
           </figure>
-          <figure class="gallery-slide" data-title="AI tools" data-caption="The shadow-AI inventory: who uses each tool and what data went into it. Approve or block it in one click." aria-hidden="true">
-            <img class="shot-light" src="assets/img/dash/ai-tools-light.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, AI tools page">
-            <img class="shot-dark" src="assets/img/dash/ai-tools-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, AI tools page">
+          <figure class="gallery-slide" data-title="Privacy by default" data-caption="Analysts see pseudonyms such as emp-316a. A reviewer can reveal a name when there is a reason, and every reveal is logged." aria-hidden="true">
+            <img class="shot-light" data-src="assets/img/dash/reveal-light.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: Privacy by default">
+            <img class="shot-dark" data-src="assets/img/dash/reveal-dark.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: Privacy by default">
           </figure>
-          <figure class="gallery-slide" data-title="People" data-caption="Employees ranked by 30-day risk score, with their devices and the policy that applies to them." aria-hidden="true">
-            <img class="shot-light" src="assets/img/dash/people-light.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, People page">
-            <img class="shot-dark" src="assets/img/dash/people-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, People page">
-          </figure>
-          <figure class="gallery-slide" data-title="Devices" data-caption="Every sensor (desktop agent, browser extension, Linux EDR) with its status, last check-in and policy version." aria-hidden="true">
-            <img class="shot-light" src="assets/img/dash/devices-light.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Devices page">
-            <img class="shot-dark" src="assets/img/dash/devices-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Devices page">
+          <figure class="gallery-slide" data-title="Analysis" data-caption="Trends over time, and what was stopped by data type and by AI tool." aria-hidden="true">
+            <img class="shot-light" data-src="assets/img/dash/analysis-light.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: Analysis">
+            <img class="shot-dark" data-src="assets/img/dash/analysis-dark.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard: Analysis">
           </figure>
           </div>
           <button type="button" class="gallery-arrow side next" data-gnext aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -407,6 +399,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261121c" defer></script>
+<script src="assets/site.js?v=20261121d" defer></script>
 </body>
 </html>
