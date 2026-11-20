@@ -663,3 +663,23 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
   .term li { white-space: normal; align-items: start; }
   .term-body { padding-inline: var(--s4); }
 }
+
+/* ------------------------------------------------------------ how it fits */
+.fit { display: grid; grid-template-columns: minmax(0, 1.25fr) auto minmax(0, 1fr) auto minmax(0, 1fr); gap: var(--s4); align-items: center; }
+.fit-col { display: grid; gap: var(--s3); align-content: center; }
+.fit-label { font: 500 var(--t-small)/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.fit-card { padding: var(--s4) var(--s5); }
+.fit-card h3 { margin-bottom: var(--s1); }
+.fit-card p { color: var(--ink-2); font-size: var(--t-body); }
+.fit-main { border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+.fit-link { display: grid; gap: var(--s4); justify-items: center; color: var(--accent); }
+.fit-arrow { display: grid; justify-items: center; gap: var(--s1); }
+.fit-arrow svg { width: 64px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.fit-arrow.back { color: var(--ink-3); }
+.fit-arrow small { font: 500 11px/1.3 var(--font-mono); color: var(--ink-3); white-space: nowrap; }
+.fit-note { margin-top: var(--s6); }
+@media (max-width: 960px) {
+  .fit { grid-template-columns: 1fr; gap: var(--s3); }
+  .fit-link { grid-auto-flow: column; justify-content: center; gap: var(--s6); padding: var(--s2) 0; }
+  .fit-arrow svg { transform: rotate(90deg); width: 40px; margin: 14px 0; }
+}

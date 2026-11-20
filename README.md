@@ -25,9 +25,6 @@ The site is then served at `https://dit-commit.github.io/www/`. `.nojekyll` make
 
 On a custom domain, add a `CNAME` file with the domain and change `<base href="/www/">` in `404.html` to `/`.
 
-## To do before launch
-
-- Replace the placeholder contact address `audit@panopticon.example` in `index.html` and `pricing.html`.
 
 ## Cache busting
 

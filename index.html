@@ -14,7 +14,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/site.css?v=20261121f">
+  <link rel="stylesheet" href="assets/site.css?v=20261121g">
   <script>
     document.documentElement.classList.add('js');
     try {
@@ -347,6 +347,41 @@
     </div>
   </section>
 
+  <!-- How it fits: three sensors, one self-hosted server -->
+  <section id="fit" aria-labelledby="fit-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">How it fits</p>
+        <h2 id="fit-title">Three sensors, one server you own</h2>
+        <p class="lead">Each sensor covers a different way data reaches an AI. They all report to the same server, on your infrastructure, and follow the same policy.</p>
+      </div>
+      <div class="fit reveal">
+        <div class="fit-col">
+          <p class="fit-label">On each laptop</p>
+          <div class="paper fit-card"><h3>Browser extension</h3><p>Chrome and Edge. Checks typed prompts, pastes and files inside the page, before they are sent.</p></div>
+          <div class="paper fit-card"><h3>Desktop agent</h3><p>Other browsers and desktop apps, through a local proxy for AI sites only. Reads screenshots and scans.</p></div>
+          <div class="paper fit-card"><h3>Linux EDR sensor</h3><p>Terminal AI agents and local models, seen from the kernel.</p></div>
+        </div>
+        <div class="fit-link" aria-hidden="true">
+          <span class="fit-arrow fwd"><svg viewBox="0 0 64 12"><path d="M0 6h60M54 1l6 5-6 5"/></svg><small>masked events</small></span>
+          <span class="fit-arrow back"><svg viewBox="0 0 64 12"><path d="M64 6H4M10 1L4 6l6 5"/></svg><small>policy, every 30 s</small></span>
+        </div>
+        <div class="fit-col">
+          <p class="fit-label">On your servers</p>
+          <div class="paper fit-card fit-main"><h3>Sentinel server</h3><p>Scores every event, stores it in PostgreSQL and sends high-risk alerts to your SIEM or chat. One Docker Compose stack.</p></div>
+        </div>
+        <div class="fit-link" aria-hidden="true">
+          <span class="fit-arrow fwd"><svg viewBox="0 0 64 12"><path d="M0 6h60M54 1l6 5-6 5"/></svg></span>
+        </div>
+        <div class="fit-col">
+          <p class="fit-label">Your security team</p>
+          <div class="paper fit-card"><h3>Dashboard</h3><p>Incidents, policies and the AI tool inventory. People appear as pseudonyms until a reviewer reveals one.</p></div>
+        </div>
+      </div>
+      <p class="source fit-note">Nothing goes to Panopticon or to any third party: the text and files are checked on the laptop, and the server only receives what was found, a masked extract and a keyed hash.</p>
+    </div>
+  </section>
+
   <!-- The dashboard -->
   <section aria-labelledby="product-title">
     <div class="wrap">
@@ -424,6 +459,42 @@
     </div>
   </section>
 
+  <!-- Questions buyers ask first -->
+  <section id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Questions</p>
+        <h2 id="faq-title">What IT asks first</h2>
+      </div>
+      <div class="faq reveal">
+        <details>
+          <summary>Where do our prompts and files go?</summary>
+          <p>They are checked on the laptop. Your own server receives the type of data found, how many, a masked extract such as <span class="mono">GR16 **** **** 0695</span> and a keyed one-way hash. Nothing reaches Panopticon or any third party: the server and the dashboard run on your infrastructure.</p>
+        </details>
+        <details>
+          <summary>Do we need to install a certificate on every laptop?</summary>
+          <p>Not for the browser extension. The desktop agent reads HTTPS to AI sites only (a proxy auto-config file sends just those hosts through it), so its certificate must be trusted on each laptop, as with any inspecting proxy. Apps that pin their certificates are out of its reach; on Linux, the EDR sensor still sees terminal agents.</p>
+        </details>
+        <details>
+          <summary>Which operating systems are supported?</summary>
+          <p>Browser extension: Chrome and Edge on any desktop system. Desktop agent: macOS and Linux; Windows support is written but not yet tested on real machines. EDR sensor: Linux.</p>
+        </details>
+        <details>
+          <summary>Will it slow people down?</summary>
+          <p>The extension checks a message in about a millisecond. Only traffic to AI sites goes through the desktop agent; everything else connects directly, as before.</p>
+        </details>
+        <details>
+          <summary>What if someone turns a sensor off?</summary>
+          <p>Every sensor checks in with the server. If the extension or the EDR sensor goes quiet while the same laptop is still online, the server raises a high-risk alert.</p>
+        </details>
+        <details>
+          <summary>Does Sentinel send our data to an AI to analyse it?</summary>
+          <p>No. Detection is rules and checksums, plus small models for names and project codenames that run locally. No prompt is sent to a language model for analysis.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- Closing -->
   <section class="closing" aria-labelledby="close-title">
     <div class="wrap reveal">
@@ -442,12 +513,12 @@
   <div class="wrap">
     <div class="foot">
       <span>© 2026 Panopticon Sentinel · Athens</span>
-      <nav aria-label="Footer"><a href="./">Overview</a><a href="#story">The case</a><a href="pricing.html">Pricing</a><a href="mailto:audit@panopticon.example">Contact</a></nav>
+      <nav aria-label="Footer"><a href="./">Overview</a><a href="#story">The case</a><a href="pricing.html">Pricing</a><a href="mailto:marios.fragakis@gmail.com">Contact</a></nav>
     </div>
     <p class="sources">Sources: IBM Cost of a Data Breach Report 2025; Netskope Threat Labs Report: Europe 2026; Panopticon competitor research, Nov 2026; GDPR Art. 83(5); NIS2 Art. 34(4); Regulation (EU) 2022/2554 (DORA); EU AI Act Art. 4. Example prompts, people and documents are illustrative.</p>
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261121f" defer></script>
+<script src="assets/site.js?v=20261121g" defer></script>
 </body>
 </html>
