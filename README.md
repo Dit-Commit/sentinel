@@ -1,0 +1,30 @@
+# Panopticon Sentinel website
+
+Landing page (with a 7-slide presentation) and pricing page for Panopticon Sentinel.
+Static HTML, CSS and JavaScript: no build step, no external requests (fonts are self-hosted).
+
+| File | What it is |
+| --- | --- |
+| `index.html` | Landing page: hero, the case in 7 slides, worked example, advantages, dashboard |
+| `pricing.html` | Four plans, seat calculator, volume discounts, getting started, FAQ |
+| `404.html` | Not-found page served by GitHub Pages |
+| `assets/site.css` | Design tokens and styles (Slate theme from the Sentinel dashboard, light and dark) |
+| `assets/site.js` | Theme toggle, Game of Life hero, presentation controls, pricing calculator |
+
+## Run locally
+
+```sh
+python3 -m http.server 8000
+# open http://localhost:8000
+```
+
+## Publish on GitHub Pages
+
+Settings → Pages → Build and deployment → Source: **Deploy from a branch**, branch `main`, folder `/ (root)`.
+The site is then served at `https://dit-commit.github.io/www/`. `.nojekyll` makes Pages serve the files as they are.
+
+On a custom domain, add a `CNAME` file with the domain and change `<base href="/www/">` in `404.html` to `/`.
+
+## To do before launch
+
+- Replace the placeholder contact address `audit@panopticon.example` in `index.html` and `pricing.html`.
