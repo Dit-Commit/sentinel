@@ -14,7 +14,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/site.css?v=20261121b">
+  <link rel="stylesheet" href="assets/site.css?v=20261121c">
   <script>
     document.documentElement.classList.add('js');
     try {
@@ -307,7 +307,9 @@
         <p class="lead">Runs on your servers. New detections appear within seconds; policy changes roll out in about 30.</p>
       </div>
       <div class="gallery reveal" data-gallery role="region" aria-roledescription="carousel" aria-label="Dashboard pages" tabindex="0">
-        <div class="gallery-frame">
+        <div class="gallery-stage">
+          <button type="button" class="gallery-arrow side prev" data-gprev aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <div class="gallery-frame">
           <figure class="gallery-slide is-active" data-title="Home" data-caption="The week at a glance: stopped attempts, the most important incidents, shadow AI and the riskiest people.">
             <img class="shot-light" src="assets/img/dash/home-light.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard, Home page">
             <img class="shot-dark" src="assets/img/dash/home-dark.webp" width="2880" height="1800" decoding="async" alt="Sentinel dashboard, Home page">
@@ -340,12 +342,16 @@
             <img class="shot-light" src="assets/img/dash/devices-light.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Devices page">
             <img class="shot-dark" src="assets/img/dash/devices-dark.webp" width="2880" height="1800" loading="lazy" decoding="async" alt="Sentinel dashboard, Devices page">
           </figure>
-          <button type="button" class="gallery-arrow prev" data-gprev aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <button type="button" class="gallery-arrow next" data-gnext aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          </div>
+          <button type="button" class="gallery-arrow side next" data-gnext aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
         </div>
         <div class="gallery-foot">
           <p class="gallery-cap" data-gcap aria-live="polite"><b>Home</b> The week at a glance: stopped attempts, the most important incidents, shadow AI and the riskiest people.</p>
-          <ol class="gallery-dots" data-gdots aria-label="Dashboard pages"></ol>
+          <div class="gallery-nav">
+            <button type="button" class="gallery-arrow inline prev" data-gprev aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+            <ol class="gallery-dots" data-gdots aria-label="Dashboard pages"></ol>
+            <button type="button" class="gallery-arrow inline next" data-gnext aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          </div>
         </div>
       </div>
       <div class="product reveal">
@@ -401,6 +407,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261121b" defer></script>
+<script src="assets/site.js?v=20261121c" defer></script>
 </body>
 </html>

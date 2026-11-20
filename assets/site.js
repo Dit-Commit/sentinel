@@ -230,8 +230,8 @@
       // Warm the next page so the arrow never shows a blank frame.
       gSlides[(g + 1) % gSlides.length].querySelectorAll('img').forEach((i) => { i.loading = 'eager'; });
     };
-    gallery.querySelector('[data-gprev]').addEventListener('click', () => show(g - 1));
-    gallery.querySelector('[data-gnext]').addEventListener('click', () => show(g + 1));
+    gallery.querySelectorAll('[data-gprev]').forEach((b) => b.addEventListener('click', () => show(g - 1)));
+    gallery.querySelectorAll('[data-gnext]').forEach((b) => b.addEventListener('click', () => show(g + 1)));
     gallery.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') { e.preventDefault(); show(g - 1); }
       if (e.key === 'ArrowRight') { e.preventDefault(); show(g + 1); }

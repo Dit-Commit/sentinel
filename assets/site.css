@@ -531,9 +531,11 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
 
 /* ------------------------------------------------------------ polish (Nov 21) */
 /* The dashboard, shown rather than described. */
-/* Dashboard gallery: wider than the text column, one page at a time, in the site's current theme. */
-.gallery { --g-w: min(1320px, 100vw - 2 * var(--gutter)); width: var(--g-w); margin: 0 0 var(--s7) calc((100% - var(--g-w)) / 2); }
+/* Dashboard gallery: one page at a time, in the site's current theme. Wide screens put the arrows in
+   the margin beside the image; narrower ones put them under it, around the dots. */
+.gallery { --arrow: 48px; width: 100%; margin: 0 0 var(--s7); }
 .gallery:focus-visible { outline-offset: 6px; border-radius: calc(var(--r-panel) + 6px); }
+.gallery-stage { position: relative; }
 .gallery-frame {
   position: relative; display: grid; border-radius: calc(var(--r-panel) + 4px); overflow: hidden;
   border: 1px solid var(--glass-border); background: var(--surface);
@@ -547,32 +549,43 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
 .shot-dark, .dark .shot-light { display: none; }
 .dark .shot-dark { display: block; }
 .gallery-arrow {
-  position: absolute; top: 50%; z-index: 2; width: 48px; height: 48px; margin-top: -24px; border-radius: 50%;
+  flex: none; width: var(--arrow); height: var(--arrow); border-radius: 50%;
   display: grid; place-items: center; color: var(--ink);
   border: 1px solid var(--glass-border); border-top-color: var(--glass-border-top);
-  background: var(--glass-bg); -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter);
-  box-shadow: var(--glass-shadow); transition: transform var(--motion-quick) var(--ease), background var(--motion-quick);
+  background: var(--card-glass); box-shadow: var(--shadow);
+  transition: transform var(--motion-quick) var(--ease), background var(--motion-quick), border-color var(--motion-quick);
 }
-.gallery-arrow:hover { background: var(--surface); transform: scale(1.06); }
+.gallery-arrow:hover { background: var(--surface); border-color: color-mix(in srgb, var(--ink) 22%, transparent); transform: scale(1.06); }
 .gallery-arrow:active { transform: scale(.96); }
 .gallery-arrow svg { width: 22px; height: 22px; }
-.gallery-arrow.prev { left: var(--s4); }
-.gallery-arrow.next { right: var(--s4); }
-.gallery-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s4) var(--s6); margin-top: var(--s4); padding-inline: var(--s1); }
+/* In the margin, centred on the image, a clear gap away from it. */
+.gallery-arrow.side { position: absolute; top: 50%; margin-top: calc(var(--arrow) / -2); }
+.gallery-arrow.side.prev { right: calc(100% + var(--s5)); }
+.gallery-arrow.side.next { left: calc(100% + var(--s5)); }
+.gallery-arrow.inline { display: none; }
+.gallery-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--s4) var(--s6); margin-top: var(--s4); }
 .gallery-cap { color: var(--ink-2); max-width: 70ch; min-height: 3.2em; }
 .gallery-cap b { color: var(--ink); font-weight: 600; margin-right: var(--s1); }
+.gallery-nav { display: flex; align-items: center; gap: var(--s3); flex: none; }
 .gallery-dots { display: flex; flex: none; gap: 2px; list-style: none; padding: 0; }
 .gallery-dots button { width: 28px; height: 28px; border: 0; background: none; padding: 0; display: grid; place-items: center; border-radius: var(--r-control); }
 .gallery-dots button::before { content: ""; width: 14px; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 18%, transparent); transition: background var(--motion-standard), width var(--motion-standard) var(--ease); }
 .gallery-dots button:hover::before { background: var(--ink-3); }
 .gallery-dots button[aria-current="true"]::before { background: var(--accent); width: 22px; }
-@media (max-width: 640px) {
-  .gallery-arrow { width: 36px; height: 36px; margin-top: -18px; }
+/* Too narrow for arrows in the margin (image + 2 × (gap + arrow) must fit): arrows go under the image. */
+@media (max-width: 1319px) {
+  .gallery-arrow.side { display: none; }
+  .gallery-arrow.inline { display: grid; }
+  .gallery { --arrow: 40px; }
   .gallery-arrow svg { width: 18px; height: 18px; }
-  .gallery-arrow.prev { left: var(--s2); }
-  .gallery-arrow.next { right: var(--s2); }
-  .gallery-foot { flex-direction: column-reverse; gap: var(--s2); }
-  .gallery-dots { align-self: center; }
+}
+@media (max-width: 720px) {
+  .gallery-foot { flex-direction: column; align-items: stretch; gap: var(--s3); }
+  .gallery-nav { justify-content: space-between; }
+  .gallery-dots button { width: 22px; }
+  .gallery-dots button::before { width: 10px; }
+  .gallery-dots button[aria-current="true"]::before { width: 18px; }
+  .gallery-cap { min-height: 4.8em; }
 }
 @media (prefers-reduced-motion: reduce) { .gallery-slide, .gallery-slide.is-active { transition: none; } }
 /* Hero fade: eased stops, so dark into light doesn't leave a flat grey band; the content clears it. */
