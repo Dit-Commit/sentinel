@@ -14,7 +14,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/site.css?v=20261121d">
+  <link rel="stylesheet" href="assets/site.css?v=20261121e">
   <script>
     document.documentElement.classList.add('js');
     try {
@@ -36,6 +36,7 @@
       <ul class="nav">
         <li class="hide-sm"><a href="#story">The case</a></li>
         <li class="hide-sm"><a href="#how">How it works</a></li>
+        <li class="hide-sm"><a href="#agents">AI agents</a></li>
         <li><a href="pricing.html">Pricing</a></li>
       </ul>
     </nav>
@@ -278,6 +279,54 @@
     </div>
   </section>
 
+  <!-- Terminal AI agents: the Linux EDR sensor -->
+  <section id="agents" aria-labelledby="agents-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Terminal AI agents</p>
+        <h2 id="agents-title">The leak a browser filter never sees</h2>
+        <p class="lead">Coding agents such as Claude Code and Codex run in the terminal. They read files, run commands and talk to their AI service on their own, with no browser and often around the proxy. Sentinel’s Linux sensor watches what their processes do, from the kernel.</p>
+      </div>
+      <div class="edr reveal">
+        <figure>
+          <div class="term" role="img" aria-label="Illustrative: a terminal agent connected to its AI service reads a customer file and opens a decoy passwords file; Sentinel reports a taint flow and a decoy-file touch and freezes the agent">
+            <div class="term-head"><i></i><i></i><i></i><span>what the sensor sees</span></div>
+            <div class="term-body">
+              <p class="term-cmd"><b>~/work $</b> claude "find churn risk in customers.csv"</p>
+              <ol>
+                <li><span class="p">node:claude</span><span class="v">connect</span><span class="t">api.anthropic.com<span class="tag ai">AI service</span></span></li>
+                <li><span class="p">bash</span><span class="v">exec</span><span class="t">head -200 crm/customers.csv</span></li>
+                <li><span class="p">head</span><span class="v">open</span><span class="t">crm/customers.csv<span class="tag">customer data</span></span></li>
+                <li><span class="p">bash</span><span class="v">exec</span><span class="t">grep -r "password" ~/</span></li>
+                <li><span class="p">grep</span><span class="v">open</span><span class="t">~/.vpn/passwords.txt<span class="tag">decoy file</span></span></li>
+              </ol>
+              <div class="term-out">
+                <span><em>taint_flow</em><span>customer data → Anthropic, in one agent’s process tree</span></span>
+                <span><em>canary_touch</em><span>decoy file opened: nobody has a reason to</span></span>
+                <span><strong>frozen</strong><span>policy says block: the agent is paused, reversibly</span></span>
+              </div>
+            </div>
+          </div>
+          <figcaption class="term-cap">Illustrative session. Your server gets labels, the process chain and the evidence, never file contents or prompts.</figcaption>
+        </figure>
+        <ul class="detects">
+          <li><span class="k">01</span><h3>Data flowing to an AI</h3><p>A sensitive file read inside a process tree that talks to an AI service is reported as a taint flow.</p></li>
+          <li><span class="k">02</span><h3>Decoy files</h3><p>Plant fake secrets. Any process that opens one is reported at once: there is no innocent reason to.</p></li>
+          <li><span class="k">03</span><h3>Agents at work</h3><p>The think, run, think-again rhythm of an agent shows in its process tree, whatever the agent prints.</p></li>
+          <li><span class="k">04</span><h3>Local models</h3><p>Model files loaded on the laptop are listed, so offline AI is in the inventory too.</p></li>
+          <li><span class="k">05</span><h3>Freeze, if you choose</h3><p>With a block policy, a decoy or taint hit pauses the agent’s processes until the policy changes. Off by default.</p></li>
+        </ul>
+      </div>
+      <div class="stats edr-stats reveal">
+        <div class="stat"><strong>28 / 30</strong><p>Codex agent sessions detected</p></div>
+        <div class="stat"><strong>30 / 30</strong><p>Claude (Haiku) agent sessions detected</p></div>
+        <div class="stat"><strong>23 / 23</strong><p>Codex sessions told to avoid detection, still detected</p></div>
+        <div class="stat"><strong>0</strong><p>false alarms in about 15 hours of developer desktops</p></div>
+      </div>
+      <p class="source">Held-out recordings in a Linux VM, scored once with the configuration fixed in advance. Not caught yet: an agent driving a local model (aider), and fixed scripts that call an AI in a loop. Linux only today, using eBPF.</p>
+    </div>
+  </section>
+
   <!-- Advantages -->
   <section aria-labelledby="adv-title">
     <div class="wrap">
@@ -399,6 +448,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261121d" defer></script>
+<script src="assets/site.js?v=20261121e" defer></script>
 </body>
 </html>
