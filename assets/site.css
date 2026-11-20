@@ -531,8 +531,18 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
 
 /* ------------------------------------------------------------ polish (Nov 21) */
 /* The dashboard, shown rather than described. */
-.shot { margin: 0 0 var(--s6); border-radius: var(--r-panel); overflow: hidden; border: 1px solid var(--glass-border); box-shadow: 0 24px 60px rgb(15 23 42 / 16%); background: var(--surface); }
+/* Wider than the text column, and in the site's current theme (light shot on light, dark on dark). */
+.shot {
+  --shot-w: min(1320px, 100vw - 2 * var(--gutter));
+  width: var(--shot-w); margin: 0 0 var(--s7) calc((100% - var(--shot-w)) / 2);
+  border-radius: calc(var(--r-panel) + 4px); overflow: hidden;
+  border: 1px solid var(--glass-border); background: var(--surface);
+  box-shadow: 0 2px 6px rgb(15 23 42 / 6%), 0 30px 80px rgb(15 23 42 / 18%);
+}
+.dark .shot { box-shadow: 0 2px 6px rgb(0 0 0 / 30%), 0 30px 80px rgb(0 0 0 / 50%); }
 .shot img { width: 100%; height: auto; }
+.shot-dark, .dark .shot-light { display: none; }
+.dark .shot-dark { display: block; }
 /* Hero fade: eased stops, so dark into light doesn't leave a flat grey band; the content clears it. */
 .hero { padding-bottom: calc(var(--s8) + 48px); }
 .hero::after {
