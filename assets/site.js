@@ -109,8 +109,8 @@
     }
     start();
 
-    /* Interaction: hovering leaves a light trail of live cells, dragging draws a solid line, and a click
-       or tap bursts a cluster of cells with four gliders flying outward. Off under reduced motion. */
+    /* Interaction: dragging draws a solid line of live cells, and a click or tap bursts a cluster of cells
+       with four gliders flying outward. Hovering does nothing. Off under reduced motion. */
     const hero = canvas.parentElement;
     if (animate && ctx && hero) {
       const wrap = (v, n) => ((v % n) + n) % n;
@@ -130,11 +130,6 @@
         x = wrap(x, w); y = wrap(y, h);
         cells[y * w + x] = 1;
         flash(x, y);
-      };
-      // Seed a small random cluster so the path turns into structures instead of dying in one step.
-      const seedAround = (x, y) => {
-        seedCell(x, y);
-        for (let k = 0; k < 2; k++) if (Math.random() < 0.6) seedCell(x + Math.round(Math.random() * 2 - 1), y + Math.round(Math.random() * 2 - 1));
       };
       const stamp = (x, y, sx, sy) => {
         for (const [dx, dy] of GLIDER) seedCell(x + (sx === 1 ? dx : 2 - dx), y + (sy === 1 ? dy : 2 - dy));
@@ -156,12 +151,12 @@
       const excluded = (e) => e.target.closest('a, button, input, select, textarea, .demo');
 
       let px = null, py = null, drawing = null; // drawing = id of the pointer that is pressed, or null
-      const trace = (x, y, seed) => {
-        if (px === null) seed(x, y);
+      const trace = (x, y) => {
+        if (px === null) seedBrush(x, y);
         else {
-          // Fill the cells between samples so fast moves still leave a continuous trail.
+          // Fill the cells between samples so fast drags still leave a continuous line.
           const n = Math.max(Math.abs(x - px), Math.abs(y - py));
-          for (let s = 1; s <= n; s++) seed(Math.round(px + ((x - px) * s) / n), Math.round(py + ((y - py) * s) / n));
+          for (let s = 1; s <= n; s++) seedBrush(Math.round(px + ((x - px) * s) / n), Math.round(py + ((y - py) * s) / n));
         }
         px = x; py = y;
       };
@@ -174,18 +169,17 @@
         px = x; py = y;
       });
       hero.addEventListener('pointermove', (e) => {
-        const pressed = drawing === e.pointerId;
-        // Touch: only a press-and-drag draws (vertical swipes still scroll the page, see touch-action in CSS).
-        if (e.pointerType === 'touch' && !pressed) return;
+        // Only a press-and-drag draws; plain hovering leaves the field alone.
+        // On touch, vertical swipes still scroll the page (see touch-action in CSS).
+        if (drawing !== e.pointerId) return;
         const [x, y] = cellAt(e);
         if (x === px && y === py) return;
-        trace(x, y, pressed ? seedBrush : seedAround);
+        trace(x, y);
       }, { passive: true });
       const release = (e) => { if (drawing === e.pointerId) drawing = null; };
       // Listen on window so letting go outside the hero still ends the drag.
       window.addEventListener('pointerup', release);
       window.addEventListener('pointercancel', (e) => { release(e); px = py = null; });
-      hero.addEventListener('pointerleave', () => { px = py = null; });
       hero.classList.add('life-interactive');
     }
   }
