@@ -28,3 +28,9 @@ On a custom domain, add a `CNAME` file with the domain and change `<base href="/
 ## To do before launch
 
 - Replace the placeholder contact address `audit@panopticon.example` in `index.html` and `pricing.html`.
+
+## Cache busting
+
+GitHub Pages lets browsers cache files for 10 minutes. The pages load `assets/site.css?v=…` and
+`assets/site.js?v=…`: change the `v=` value in `index.html`, `pricing.html` and `404.html` whenever
+you change the CSS or JS, so a new page never runs with an old stylesheet.
