@@ -285,7 +285,7 @@
       <div class="section-head reveal">
         <p class="eyebrow">Terminal AI agents</p>
         <h2 id="agents-title">The leak a browser filter never sees</h2>
-        <p class="lead">Coding agents such as Claude Code and Codex run in the terminal. They read files, run commands and talk to their AI service on their own, with no browser and often around the proxy. Sentinel’s Linux sensor watches what their processes do, from the kernel.</p>
+        <p class="lead">Coding agents such as Claude Code and Codex run in the terminal. They read files, run commands and talk to their AI service on their own, with no browser and often around the proxy. Sentinel’s Linux sensor watches what their processes do, from the kernel. It runs on Linux only for now, not yet on macOS or Windows.</p>
       </div>
       <div class="edr reveal">
         <figure>
@@ -339,7 +339,7 @@
         <li><span class="k">02</span><h3>Raw data stays local</h3><p>Real values never leave the employee’s machine.</p></li>
         <li><span class="k">03</span><h3>Self-hosted</h3><p>Dashboard and logs run on your own servers.</p></li>
         <li><span class="k">04</span><h3>Greek identifiers</h3><p>AFM, AMKA, Greek IBANs and names, checked with checksums.</p></li>
-        <li><span class="k">05</span><h3>Every AI surface</h3><p>Browser, desktop apps, terminal agents, MCP, local models.</p></li>
+        <li><span class="k">05</span><h3>Every AI surface</h3><p>Browser, desktop apps, MCP, local models, and terminal agents on Linux.</p></li>
         <li><span class="k">06</span><h3>Redaction</h3><p>Employees still get an answer. Log, warn or block also available.</p></li>
         <li><span class="k">07</span><h3>Company accounts</h3><p>Personal AI accounts refused; approved tools stay open.</p></li>
         <li><span class="k">08</span><h3>Fail-closed option</h3><p>If a scan fails, the policy can block the send.</p></li>
@@ -360,7 +360,7 @@
           <p class="fit-label">On each laptop</p>
           <div class="paper fit-card"><h3>Browser extension</h3><p>Chrome and Edge. Checks typed prompts, pastes and files inside the page, before they are sent.</p></div>
           <div class="paper fit-card"><h3>Desktop agent</h3><p>Other browsers and desktop apps, through a local proxy for AI sites only. Reads screenshots and scans.</p></div>
-          <div class="paper fit-card"><h3>Linux EDR sensor</h3><p>Terminal AI agents and local models, seen from the kernel.</p></div>
+          <div class="paper fit-card"><h3>Linux EDR sensor</h3><p>Terminal AI agents and local models, seen from the kernel. Linux only for now.</p></div>
         </div>
         <div class="fit-link" aria-hidden="true">
           <span class="fit-arrow fwd"><svg viewBox="0 0 64 12"><path d="M0 6h60M54 1l6 5-6 5"/></svg><small>masked events</small></span>
@@ -477,7 +477,7 @@
         </details>
         <details>
           <summary>Which operating systems are supported?</summary>
-          <p>Browser extension: Chrome and Edge on any desktop system. Desktop agent: macOS and Linux; Windows support is written but not yet tested on real machines. EDR sensor: Linux.</p>
+          <p>Browser extension: Chrome and Edge on any desktop system. Desktop agent: macOS and Linux; Windows support is written but not yet tested on real machines. EDR sensor: Linux only, not yet macOS or Windows. On a Mac, terminal tools that follow the system’s proxy settings are still checked by the desktop agent; the process-level view of terminal agents is Linux-only.</p>
         </details>
         <details>
           <summary>Will it slow people down?</summary>
