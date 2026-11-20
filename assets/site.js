@@ -203,6 +203,50 @@
       { rootMargin: '0px 0px -92% 0px' }).observe(heroEl);
   }
 
+  /* ---------------------------------------------------------------- dashboard gallery */
+  const gallery = document.querySelector('[data-gallery]');
+  if (gallery) {
+    const gSlides = [...gallery.querySelectorAll('.gallery-slide')];
+    const gDots = gallery.querySelector('[data-gdots]');
+    const gCap = gallery.querySelector('[data-gcap]');
+    let g = 0;
+    const dotButtons = gSlides.map((s, n) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', `${s.dataset.title} (${n + 1} of ${gSlides.length})`);
+      b.addEventListener('click', () => show(n));
+      li.append(b); gDots.append(li);
+      return b;
+    });
+    const show = (n) => {
+      g = (n + gSlides.length) % gSlides.length;
+      gSlides.forEach((s, k) => { s.classList.toggle('is-active', k === g); s.setAttribute('aria-hidden', String(k !== g)); });
+      dotButtons.forEach((b, k) => b.setAttribute('aria-current', String(k === g)));
+      const s = gSlides[g];
+      gCap.innerHTML = '';
+      const t = document.createElement('b'); t.textContent = s.dataset.title;
+      gCap.append(t, ' ' + s.dataset.caption);
+      // Warm the next page so the arrow never shows a blank frame.
+      gSlides[(g + 1) % gSlides.length].querySelectorAll('img').forEach((i) => { i.loading = 'eager'; });
+    };
+    gallery.querySelector('[data-gprev]').addEventListener('click', () => show(g - 1));
+    gallery.querySelector('[data-gnext]').addEventListener('click', () => show(g + 1));
+    gallery.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(g - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(g + 1); }
+    });
+    let gx = null, gy = null;
+    const frame = gallery.querySelector('.gallery-frame');
+    frame.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { gx = e.clientX; gy = e.clientY; } });
+    frame.addEventListener('pointerup', (e) => {
+      if (gx === null) return;
+      const dx = e.clientX - gx, dy = e.clientY - gy; gx = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(g + (dx < 0 ? 1 : -1));
+    });
+    show(0);
+  }
+
   /* ---------------------------------------------------------------- reveal on scroll */
   const reveals = document.querySelectorAll('.reveal, .scale');
   if ('IntersectionObserver' in window && !reduced()) {
