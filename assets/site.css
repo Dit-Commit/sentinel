@@ -196,6 +196,7 @@ h3 { font-size: var(--t-lead); letter-spacing: -.01em; line-height: 1.3; }
 .brand .mark { flex: none; }
 .mark-dots { fill: var(--brand-teal); }
 .mark-dome { fill: var(--brand-dome); }
+.mark-line { stroke: var(--brand-teal); }
 .mark-sea { fill: var(--brand-dome); opacity: .22; } /* the globe's ocean: drawn as black in the original logo */
 .dark .mark-sea { opacity: .16; }
 .brand small { font-weight: 500; color: var(--ink-3); }
