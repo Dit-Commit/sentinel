@@ -15,7 +15,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/site.css?v=20261121u">
+  <link rel="stylesheet" href="assets/site.css?v=20261121v">
   <script>
     document.documentElement.classList.add('js');
     try {
@@ -418,7 +418,7 @@
           <div class="film-ui" role="group" aria-label="Video controls">
             <button type="button" class="film-btn" data-film-toggle aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg></button>
             <span class="film-time" data-film-time>0:00 / 2:31</span>
-            <input class="film-seek" type="range" min="0" max="151.0" step="0.1" value="0" data-film-seek aria-label="Position in the video">
+            <input class="film-seek" type="range" min="0" max="151.1" step="0.1" value="0" data-film-seek aria-label="Position in the video">
             <button type="button" class="film-btn film-mute" data-film-mute aria-label="Mute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="cross" d="m16 9 5 6m0-6-5 6"/></svg></button>
             <button type="button" class="film-btn" data-film-fs aria-label="Full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
           </div>
@@ -427,40 +427,40 @@
           <p class="film-cap"><b id="film-title">The whole story, live, in two and a half minutes.</b>
             <span id="film-desc">Recorded on the real product: the extension on claude.ai, the desktop agent reading a scanned contract, the Linux sensor catching a terminal agent, and this dashboard. It follows the site’s light or dark theme.</span></p>
           <ol class="film-chapters" aria-label="Jump to a part of the video">
-            <li><button type="button" data-seek="6.4"><span>1</span>Browser</button></li>
-            <li><button type="button" data-seek="34.6"><span>2</span>Desktop apps</button></li>
-            <li><button type="button" data-seek="53.0"><span>3</span>Terminal agents</button></li>
-            <li><button type="button" data-seek="75.0"><span>4</span>Dashboard</button></li>
+            <li><button type="button" data-seek="6.5"><span>1</span>Browser</button></li>
+            <li><button type="button" data-seek="34.7"><span>2</span>Desktop apps</button></li>
+            <li><button type="button" data-seek="53.1"><span>3</span>Terminal agents</button></li>
+            <li><button type="button" data-seek="75.1"><span>4</span>Dashboard</button></li>
           </ol>
         </figcaption>
         <details class="film-transcript">
           <summary>Transcript</summary>
           <ol>
-              <li><button type="button" data-t="0.3" aria-label="Play from 0:00">0:00</button><p><b>Use AI. Keep your data.</b> <span class="muted">Shadow-AI data protection.</span> Employees paste client data into AI tools every day. Sentinel checks it on the device, before anything leaves, and shows the security team what happened.</p></li>
-              <li><button type="button" data-t="6.7" aria-label="Play from 0:06">0:06</button><p><b>A client IBAN, pasted into claude.ai</b> <span class="muted">1 / 4 · Browser.</span> The browser extension reads the prompt in the page, before it is sent, and applies the company policy.</p></li>
-              <li><button type="button" data-t="10.9" aria-label="Play from 0:10">0:10</button><p>Someone in Sales pastes a client IBAN into claude.ai</p></li>
-              <li><button type="button" data-t="15.5" aria-label="Play from 0:15">0:15</button><p>The extension checks it in the page, before anything is sent. Policy for Sales: Redact</p></li>
-              <li><button type="button" data-t="19.7" aria-label="Play from 0:19">0:19</button><p>The IBAN is masked in place. Only GR16 … 695 is left</p></li>
-              <li><button type="button" data-t="23.6" aria-label="Play from 0:23">0:23</button><p>Claude gets masked text, and the employee still gets an answer</p></li>
-              <li><button type="button" data-t="34.9" aria-label="Play from 0:34">0:34</button><p><b>A scanned contract, attached as an image</b> <span class="muted">2 / 4 · Desktop apps.</span> A text filter sees nothing in a picture. The desktop agent reads it on the device with OCR and finds the name, tax number and IBAN.</p></li>
-              <li><button type="button" data-t="39.1" aria-label="Play from 0:39">0:39</button><p>A desktop AI app, through the Sentinel agent. The file: a scanned contract, as an image</p></li>
-              <li><button type="button" data-t="43.4" aria-label="Play from 0:43">0:43</button><p>OCR reads the image on the device…</p></li>
-              <li><button type="button" data-t="48.0" aria-label="Play from 0:47">0:47</button><p>…finds a name, an ΑΦΜ and an IBAN, and blocks the upload before it leaves</p></li>
-              <li><button type="button" data-t="53.3" aria-label="Play from 0:53">0:53</button><p><b>The leak a browser filter never sees</b> <span class="muted">3 / 4 · Terminal agents.</span> Coding agents read files and call their AI service on their own. The Linux sensor watches their processes: customer data read, then an AI connection; a decoy password file opened.</p></li>
-              <li><button type="button" data-t="58.0" aria-label="Play from 0:58">0:58</button><p>Claude Code in a terminal: no browser, no extension</p></li>
-              <li><button type="button" data-t="62.3" aria-label="Play from 1:02">1:02</button><p>The Linux sensor follows the process tree: terminal → bash → claude → cat</p></li>
-              <li><button type="button" data-t="66.7" aria-label="Play from 1:06">1:06</button><p>A sensitive file was read, then the same tree talked to api.anthropic.com</p></li>
-              <li><button type="button" data-t="71.1" aria-label="Play from 1:11">1:11</button><p>Every alert explains itself: the evidence, in bits</p></li>
-              <li><button type="button" data-t="75.3" aria-label="Play from 1:15">1:15</button><p><b>One calm place to see and decide</b> <span class="muted">4 / 4 · Dashboard.</span> On your own servers. Masked evidence only, pseudonyms by default, policies that inherit per department.</p></li>
-              <li><button type="button" data-t="79.5" aria-label="Play from 1:19">1:19</button><p>Home: the week at a glance</p></li>
-              <li><button type="button" data-t="84.2" aria-label="Play from 1:24">1:24</button><p>Shadow AI radar and the riskiest people, all pseudonymous</p></li>
-              <li><button type="button" data-t="90.1" aria-label="Play from 1:30">1:30</button><p>Every board is yours to arrange: drag widgets, resize them, add new ones</p></li>
-              <li><button type="button" data-t="111.2" aria-label="Play from 1:51">1:51</button><p>The claude.ai paste from earlier: who, which tool, what was masked. Never the prompt itself</p></li>
-              <li><button type="button" data-t="117.9" aria-label="Play from 1:57">1:57</button><p>AI tools: every tool in use, approved or not, rated from facts</p></li>
-              <li><button type="button" data-t="125.4" aria-label="Play from 2:05">2:05</button><p>Policies inherit field by field. Sales overrides one field: Redact</p></li>
-              <li><button type="button" data-t="131.6" aria-label="Play from 2:11">2:11</button><p>People are pseudonyms by default</p></li>
-              <li><button type="button" data-t="139.8" aria-label="Play from 2:19">2:19</button><p>A reviewer can reveal a name when there is a reason, and every reveal is logged</p></li>
-              <li><button type="button" data-t="144.8" aria-label="Play from 2:24">2:24</button><p><b>Use AI. Keep your data.</b> Start with a free 30-day audit: see which AI tools your company uses, and what data goes into them.</p></li>
+              <li><button type="button" data-t="0.3" aria-label="Play from 0:00">0:00</button><p><b>Use AI. Keep your data.</b> Employees paste client data into AI tools every day. Sentinel checks it on the device, before anything leaves, and shows your security team what happened.</p></li>
+              <li><button type="button" data-t="6.8" aria-label="Play from 0:06">0:06</button><p><b>A client IBAN, pasted into claude.ai</b> <span class="muted">01 · Browser.</span> The browser extension reads what is pasted, inside the page, and applies your policy before anything is sent.</p></li>
+              <li><button type="button" data-t="11.0" aria-label="Play from 0:11">0:11</button><p>Someone in Sales pastes a client IBAN into claude.ai</p></li>
+              <li><button type="button" data-t="15.6" aria-label="Play from 0:15">0:15</button><p>The extension checks it in the page, before anything is sent. Policy for Sales: Redact</p></li>
+              <li><button type="button" data-t="19.8" aria-label="Play from 0:19">0:19</button><p>The IBAN is masked in place. Only GR16 … 695 is left</p></li>
+              <li><button type="button" data-t="23.7" aria-label="Play from 0:23">0:23</button><p>Claude gets masked text, and the employee still gets an answer</p></li>
+              <li><button type="button" data-t="35.0" aria-label="Play from 0:34">0:34</button><p><b>A scanned contract, sent as an image</b> <span class="muted">02 · Desktop apps.</span> Text filters see nothing in a picture. The desktop agent reads it on the device and finds the name, the tax number and the IBAN.</p></li>
+              <li><button type="button" data-t="39.2" aria-label="Play from 0:39">0:39</button><p>A desktop AI app, through the Sentinel agent. The file: a scanned contract, as an image</p></li>
+              <li><button type="button" data-t="43.5" aria-label="Play from 0:43">0:43</button><p>OCR reads the image on the device…</p></li>
+              <li><button type="button" data-t="48.1" aria-label="Play from 0:48">0:48</button><p>…finds a name, an ΑΦΜ and an IBAN, and blocks the upload before it leaves</p></li>
+              <li><button type="button" data-t="53.4" aria-label="Play from 0:53">0:53</button><p><b>The leak a browser filter never sees</b> <span class="muted">03 · Terminal agents.</span> Coding agents read files and call their AI on their own. Sentinel’s Linux sensor follows their processes, from the file they read to the AI they send it to.</p></li>
+              <li><button type="button" data-t="58.1" aria-label="Play from 0:58">0:58</button><p>Claude Code in a terminal: no browser, no extension</p></li>
+              <li><button type="button" data-t="62.4" aria-label="Play from 1:02">1:02</button><p>The Linux sensor follows the process tree: terminal → bash → claude → cat</p></li>
+              <li><button type="button" data-t="66.8" aria-label="Play from 1:06">1:06</button><p>A sensitive file was read, then the same tree talked to api.anthropic.com</p></li>
+              <li><button type="button" data-t="71.2" aria-label="Play from 1:11">1:11</button><p>Every alert explains itself: the evidence, in bits</p></li>
+              <li><button type="button" data-t="75.4" aria-label="Play from 1:15">1:15</button><p><b>One calm place to see and decide</b> <span class="muted">04 · Dashboard.</span> On your own servers. Masked evidence only, pseudonyms by default, and policies that inherit by department.</p></li>
+              <li><button type="button" data-t="79.6" aria-label="Play from 1:19">1:19</button><p>Home: the week at a glance</p></li>
+              <li><button type="button" data-t="84.3" aria-label="Play from 1:24">1:24</button><p>Shadow AI radar and the riskiest people, all pseudonymous</p></li>
+              <li><button type="button" data-t="90.2" aria-label="Play from 1:30">1:30</button><p>Every board is yours to arrange: drag widgets, resize them, add new ones</p></li>
+              <li><button type="button" data-t="111.3" aria-label="Play from 1:51">1:51</button><p>The claude.ai paste from earlier: who, which tool, what was masked. Never the prompt itself</p></li>
+              <li><button type="button" data-t="118.0" aria-label="Play from 1:58">1:58</button><p>AI tools: every tool in use, approved or not, rated from facts</p></li>
+              <li><button type="button" data-t="125.5" aria-label="Play from 2:05">2:05</button><p>Policies inherit field by field. Sales overrides one field: Redact</p></li>
+              <li><button type="button" data-t="131.7" aria-label="Play from 2:11">2:11</button><p>People are pseudonyms by default</p></li>
+              <li><button type="button" data-t="139.9" aria-label="Play from 2:19">2:19</button><p>A reviewer can reveal a name when there is a reason, and every reveal is logged</p></li>
+              <li><button type="button" data-t="144.9" aria-label="Play from 2:24">2:24</button><p><b>Use AI. Keep your data.</b> Start with a free 30-day Discovery audit: see which AI tools your company uses, and what data goes into them.</p></li>
           </ol>
         </details>
       </figure>
@@ -593,6 +593,6 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261121u" defer></script>
+<script src="assets/site.js?v=20261121v" defer></script>
 </body>
 </html>
