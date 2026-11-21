@@ -349,7 +349,9 @@
     lines.forEach((b) => b.addEventListener('click', async () => { await seekTo(Number(b.dataset.t)); play(); }));
     document.querySelectorAll('[data-play-film]').forEach((a) => a.addEventListener('click', (e) => {
       e.preventDefault();
-      film.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
+      // Scroll to the section's top (not the video's centre), so the heading clears the fixed header
+      // (html { scroll-padding-top } reserves its height).
+      (film.closest('section') || film).scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
       play();
     }));
     frame.addEventListener('keydown', (e) => {
