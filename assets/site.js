@@ -497,9 +497,9 @@
       }
       const discover = document.querySelector('[data-estimate="discover"]');
       if (discover) {
-        discover.classList.toggle('na', users > 50);
-        discover.querySelector('.value').textContent = users > 50 ? 'The Discovery audit covers 50 devices' : '€0';
-        discover.querySelector('.why').textContent = users > 50 ? 'Start with a sample of 50; the paid pilot covers up to 200.' : '30 days, inventory-only mode';
+        discover.classList.toggle('na', users > 200);
+        discover.querySelector('.value').textContent = users > 200 ? 'The Discovery audit covers up to 200 users' : '€0';
+        discover.querySelector('.why').textContent = users > 200 ? 'Start with up to 200 users; the paid pilot covers the same.' : '30 days, inventory-only mode';
       }
       return users;
     };
