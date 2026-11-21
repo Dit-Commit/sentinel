@@ -10,7 +10,7 @@ Static HTML, CSS and JavaScript: no build step, no external requests (fonts are 
 | `404.html` | Not-found page served by GitHub Pages |
 | `assets/site.css` | Design tokens and styles (Slate theme from the Sentinel dashboard, light and dark) |
 | `assets/site.js` | Theme toggle, Game of Life hero, presentation controls, pricing calculator, demo video chapters |
-| `assets/video/` | The 3-minute demo video, a light and a dark recording that match frame for frame (WebM VP9 + MP4 H.264, posters); the page crossfades between them when the theme changes |
+| `assets/video/` | The 2-minute demo video (with an original synthesised soundtrack), a light and a dark recording that match frame for frame (WebM VP9 + MP4 H.264, posters); the page crossfades between them when the theme changes |
 
 ## Run locally
 

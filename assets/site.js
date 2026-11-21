@@ -280,6 +280,15 @@
       await ready(to);
       if (id !== swap) return;
       const playing = !from.paused && !from.ended;
+      // Only the visible video is heard: the other starts muted and takes over the viewer's
+      // volume and mute setting at the swap (two copies 25 ms apart would sound like an echo).
+      const heard = { muted: from.muted, volume: from.volume };
+      to.muted = heard.muted;
+      // Volume 0 rather than muted while syncing: unmuting restarts the audio output and stalls
+      // the video for 40-80 ms (measured). iOS ignores volume, so there we fall back to muted.
+      to.volume = 0;
+      const volumeWorks = to.volume === 0;
+      if (!volumeWorks) to.muted = true;
       if (playing) {
         // Seek ahead of the visible video, then start exactly when it gets there.
         const at = Math.min(from.currentTime + 0.6, from.duration - 0.05);
@@ -291,12 +300,42 @@
         });
         if (id !== swap) return;
         play(to);
+        // Starting a video with sound takes a moment (about 0.1 s here), so the hidden copy
+        // catches up by playing slightly faster or slower, then the crossfade starts in sync.
+        await new Promise((res) => {
+          const until = performance.now() + 1500;
+          const tick = () => {
+            if (id !== swap || from.paused) { to.playbackRate = 1; return res(); }
+            const d = from.currentTime - to.currentTime;
+            // Judge only once the copy is really moving (right after play() both read the same time).
+            const moving = !to.paused && to.currentTime > at + 0.08;
+            if (moving && Math.abs(d) < 0.03) { to.playbackRate = 1; return res(); }
+            if (performance.now() > until) { to.playbackRate = 1; return res(); }
+            if (moving) to.playbackRate = Math.min(1.5, Math.max(0.75, 1 + d * 2.5));
+            requestAnimationFrame(tick);
+          };
+          tick();
+        });
+        if (id !== swap) return;
       } else {
         await seek(to, from.currentTime);
         if (id !== swap) return;
       }
       cur = next; mark();
-      if (playing) setTimeout(() => { if (id === swap) from.pause(); }, reduced() ? 0 : 520);
+      // Audio crossfade alongside the picture, then the old copy pauses at full volume again.
+      const fade = playing && !reduced() ? 180 : 0;
+      const t0 = performance.now();
+      const ramp = () => {
+        const k = fade ? Math.min(1, (performance.now() - t0) / fade) : 1;
+        if (id !== swap) return;
+        if (volumeWorks) { to.volume = heard.volume * k; from.volume = heard.volume * (1 - k); }
+        else if (k >= 1) { to.muted = heard.muted; from.muted = true; }
+        if (k < 1) return requestAnimationFrame(ramp);
+        from.pause();
+        from.volume = heard.volume; from.muted = heard.muted;
+      };
+      if (!volumeWorks) { to.muted = heard.muted; from.muted = true; }
+      ramp();
     }).observe(root, { attributes: true, attributeFilter: ['class'] });
 
     const go = async (t) => {
