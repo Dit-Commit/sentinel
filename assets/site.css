@@ -543,7 +543,7 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
 }
 .dark .film-frame { box-shadow: 0 2px 6px rgb(0 0 0 / 30%), 0 30px 80px rgb(0 0 0 / 50%); }
 .film-frame { display: grid; }
-.film video { grid-area: 1 / 1; display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; background: var(--surface); transition: opacity .5s var(--ease); }
+.film video { grid-area: 1 / 1; display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; background: var(--surface); transition: opacity .3s var(--ease); }
 /* Before the script runs: show the version for the current theme. */
 .film-v[data-film-theme="dark"], .dark .film-v[data-film-theme="light"] { opacity: 0; pointer-events: none; }
 .dark .film-v[data-film-theme="dark"] { opacity: 1; pointer-events: auto; }
