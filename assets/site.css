@@ -765,3 +765,6 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
 .legal a { color: var(--accent); }
 .legal code { font-family: var(--font-mono); font-size: .9em; }
 .legal-date { font-size: var(--t-small); color: var(--ink-3) !important; }
+
+/* 95% intervals under the EDR results */
+.stat .ci { margin-top: var(--s2); font: 500 var(--t-small)/1.4 var(--font-mono); color: var(--ink-3); }
