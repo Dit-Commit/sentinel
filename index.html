@@ -520,7 +520,7 @@
         </details>
         <details>
           <summary>Which operating systems are supported?</summary>
-          <p>Browser extension: Chrome and Edge on any desktop system. Desktop agent: macOS and Linux; Windows support is written but not yet tested on real machines. EDR sensor: Linux only, not yet macOS or Windows. On Linux, the EDR sensor sees terminal agents at the process level. On macOS and Windows, terminal tools that ignore the system proxy aren’t covered yet.</p>
+          <p>Browser extension: Chrome and Edge on any desktop system. Desktop agent: macOS and Linux; Windows support is written but not yet tested on real machines. EDR sensor: Linux only, not yet macOS or Windows. On a Mac, the desktop agent also checks terminal tools that use the proxy settings it sets up (tested on macOS). Seeing terminal agents at the process level, whatever they do with the network, needs the EDR sensor, which is Linux-only.</p>
         </details>
         <details>
           <summary>Will it slow people down?</summary>
