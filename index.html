@@ -327,7 +327,7 @@
         <div class="stat"><strong>23 / 23</strong><p>Codex sessions told to avoid detection, still detected</p><p class="ci">95% interval: 85.7–100%</p></div>
         <div class="stat"><strong>0</strong><p>false alarms in about 15 hours of developer desktops</p><p class="ci">At most about 0.2 per hour at 95% confidence; more hours of data will narrow this.</p></div>
       </div>
-      <div class="callout edr-note"><b>A small data set, and we know it</b>These are early results: 30 sessions per agent, 23 adversarial sessions and about 15 hours of normal desktop use, all recorded on one virtual-machine setup. With so few runs the uncertainty is wide: 28 of 30 means a true detection rate somewhere between 78.7% and 98.2% (95% interval). A larger, more varied evaluation is the next step.</div>
+      <div class="callout edr-note"><b>Early results, from small numbers</b>Every figure above comes with its 95% interval, and the intervals are wide because the runs are few: 30 sessions per agent, 23 adversarial sessions and about 15 hours of normal desktop use, all recorded on one virtual-machine setup. The next step is a larger evaluation, with more sessions, more agents and more machines, which will narrow every interval above.</div>
       <p class="source">Held-out recordings in a Linux VM, scored once with the configuration fixed in advance. Not caught yet: an agent driving a local model (aider), and fixed scripts that call an AI in a loop. Linux only today, using eBPF.</p>
     </div>
   </section>
