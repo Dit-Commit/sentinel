@@ -543,14 +543,48 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
 }
 .dark .film-frame { box-shadow: 0 2px 6px rgb(0 0 0 / 30%), 0 30px 80px rgb(0 0 0 / 50%); }
 .film-frame { display: grid; }
-.film video { grid-area: 1 / 1; display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; background: var(--surface); transition: opacity .5s var(--ease); }
+.film-frame { position: relative; }
+.film video { grid-area: 1 / 1; display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; background: var(--surface); transition: opacity .3s var(--ease); }
 /* Before the script runs: show the version for the current theme. */
-.film-v[data-film-theme="dark"], .dark .film-v[data-film-theme="light"] { opacity: 0; pointer-events: none; }
-.dark .film-v[data-film-theme="dark"] { opacity: 1; pointer-events: auto; }
+.film-v[data-film-theme="dark"], .dark .film-v[data-film-theme="light"] { opacity: 0; }
+.dark .film-v[data-film-theme="dark"] { opacity: 1; }
 /* After: the script decides, so a crossfade can finish after the class changes. */
-.film-frame.js .film-v { opacity: 0; pointer-events: none; }
-.film-frame.js .film-v.is-on { opacity: 1; pointer-events: auto; z-index: 1; }
+.film-frame.js .film-v { opacity: 0; }
+.film-frame.js .film-v.is-on { opacity: 1; }
+.film video { pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .film video { transition: none; } }
+/* Player: a big play button before the first play, then a bar that fades out while playing. */
+.film-big {
+  grid-area: 1 / 1; place-self: center; z-index: 3; width: 84px; height: 84px; border-radius: 50%; border: 0;
+  display: grid; place-items: center; cursor: pointer; color: #fff;
+  background: rgb(255 255 255 / 16%); -webkit-backdrop-filter: blur(12px) saturate(140%); backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 55%), 0 10px 34px rgb(0 0 0 / 35%); transition: transform var(--motion-quick) var(--ease), opacity .25s;
+}
+.film-big svg { width: 38px; height: 38px; margin-left: 4px; }
+.film-big:hover { transform: scale(1.06); }
+.film-frame.started .film-big { opacity: 0; pointer-events: none; }
+.film-ui {
+  grid-area: 1 / 1; align-self: end; z-index: 2; display: flex; align-items: center; gap: var(--s3);
+  padding: var(--s6) var(--s4) var(--s3); color: #fff;
+  background: linear-gradient(to top, rgb(10 13 18 / 72%), rgb(10 13 18 / 0));
+  opacity: 0; transition: opacity .25s;
+}
+.film-frame.started .film-ui { opacity: 1; }
+.film-frame.started.playing.idle .film-ui { opacity: 0; }
+.film-frame.started.playing.idle { cursor: none; }
+.film-btn { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border: 0; border-radius: var(--r-control); background: none; color: inherit; cursor: pointer; }
+.film-btn:hover { background: rgb(255 255 255 / 14%); }
+.film-btn svg { width: 22px; height: 22px; }
+.film-btn[data-film-toggle] svg:nth-of-type(2), .film-frame.playing .film-btn[data-film-toggle] svg:nth-of-type(1) { display: none; }
+.film-frame.playing .film-btn[data-film-toggle] svg:nth-of-type(2) { display: block; }
+.film-mute .cross { display: none; }
+.film-mute[aria-pressed="true"] .cross { display: block; }
+.film-mute[aria-pressed="true"] .wave { display: none; }
+.film-time { font: 500 var(--t-small)/1 var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.film-seek { flex: 1; min-width: 60px; accent-color: #7aa2f2; cursor: pointer; }
+.film-frame:fullscreen { display: grid; place-items: center; background: #000; border-radius: 0; }
+.film-frame:fullscreen video { width: 100%; height: 100%; object-fit: contain; }
+@media (max-width: 520px) { .film-time { display: none; } .film-ui { gap: var(--s1); padding-inline: var(--s2); } }
 .film-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s4) var(--s6); margin-top: var(--s4); }
 .film-cap { color: var(--ink-2); max-width: 62ch; }
 .film-cap b { display: block; color: var(--ink); font-weight: 600; margin-bottom: var(--s1); }

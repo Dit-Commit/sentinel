@@ -251,72 +251,132 @@
   }
 
   /* ---------------------------------------------------------------- demo video */
-  // Two recordings of the same video, light and dark, identical frame for frame. The one that
-  // matches the theme is shown; on a theme switch the other seeks a little ahead, starts when the
-  // visible one reaches that moment, and they crossfade, so playback continues in the new theme.
+  // Two silent recordings of the same video (light and dark, identical frame for frame) and one
+  // music track. The music is the clock: the visible video follows it with small playbackRate
+  // corrections, and so does the hidden one ("warm standby"), so a theme switch is only a 0.3 s
+  // crossfade of pictures and never touches the sound. Without standby (data saver, slow
+  // connection) the hidden video starts on a switch and joins in about a second.
   const film = document.querySelector('[data-film]');
   if (film) {
-    const frame = film.querySelector('.film-frame');
+    const frame = film.querySelector('[data-film-frame]');
+    const audio = film.querySelector('[data-film-audio]');
     const vids = { light: film.querySelector('[data-film-theme="light"]'), dark: film.querySelector('[data-film-theme="dark"]') };
+    const toggles = [...film.querySelectorAll('[data-film-toggle]')];
+    const seekBar = film.querySelector('[data-film-seek]');
+    const timeEl = film.querySelector('[data-film-time]');
+    const muteBtn = film.querySelector('[data-film-mute]');
+    const fsBtn = film.querySelector('[data-film-fs]');
     const chapters = [...film.querySelectorAll('[data-seek]')];
+    const DURATION = Number(seekBar.max);
     const themeNow = () => (root.classList.contains('dark') ? 'dark' : 'light');
     let cur = themeNow();
-    let swap = 0;
+    let pending = null; // a cold switch waiting for the incoming video to join
+    const conn = navigator.connection || {};
+    const standbyOK = !conn.saveData && !/(^|-)2g|3g/.test(conn.effectiveType || '');
     frame.classList.add('js');
     const mark = () => { for (const k in vids) vids[k].classList.toggle('is-on', k === cur); };
     mark();
     const once = (el, ev) => new Promise((res) => el.addEventListener(ev, res, { once: true }));
-    const ready = async (v) => { if (v.readyState < 1) { v.preload = 'auto'; v.load(); await once(v, 'loadedmetadata'); } };
-    const seek = async (v, t) => { if (Math.abs(v.currentTime - t) < 0.02) return; v.currentTime = t; await once(v, 'seeked'); };
-    const play = (v) => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    const ready = async (m) => { if (m.readyState < 1) { m.preload = 'auto'; m.load(); await once(m, 'loadedmetadata'); } };
+    const start = (m) => { const p = m.play(); if (p && p.catch) p.catch(() => {}); return p; };
     const active = () => vids[cur];
+    const other = () => vids[cur === 'light' ? 'dark' : 'light'];
+    const playing = () => !audio.paused && !audio.ended;
+    const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
-    new MutationObserver(async () => {
-      const next = themeNow();
-      if (next === cur) return;
-      const from = vids[cur], to = vids[next], id = ++swap;
-      const started = from.currentTime > 0 || !from.paused;
-      if (!started) { cur = next; mark(); return; }
-      await ready(to);
-      if (id !== swap) return;
-      const playing = !from.paused && !from.ended;
-      if (playing) {
-        // Seek ahead of the visible video, then start exactly when it gets there.
-        const at = Math.min(from.currentTime + 0.6, from.duration - 0.05);
-        await seek(to, at);
-        if (id !== swap) return;
-        await new Promise((res) => {
-          const tick = () => (id !== swap || from.paused || from.currentTime >= at ? res() : requestAnimationFrame(tick));
-          tick();
-        });
-        if (id !== swap) return;
-        play(to);
-      } else {
-        await seek(to, from.currentTime);
-        if (id !== swap) return;
-      }
-      cur = next; mark();
-      if (playing) setTimeout(() => { if (id === swap) from.pause(); }, reduced() ? 0 : 520);
-    }).observe(root, { attributes: true, attributeFilter: ['class'] });
-
-    const go = async (t) => {
-      const v = active(); swap++;
-      await ready(v);
-      if (t !== undefined) await seek(v, t);
-      play(v);
+    // ---- keep a video on the music's clock
+    const follow = (v) => {
+      if (v.readyState < 2) return;
+      if (!playing()) { if (!v.paused) v.pause(); return; }
+      const d = audio.currentTime - v.currentTime;
+      if (v.paused) { v.currentTime = audio.currentTime; start(v); return; }
+      if (Math.abs(d) > 0.5) { v.currentTime = audio.currentTime + 0.05; v.playbackRate = 1; return; }
+      v.playbackRate = Math.abs(d) < 0.015 ? 1 : Math.min(1.25, Math.max(0.8, 1 + d * 2.5));
     };
-    chapters.forEach((b) => b.addEventListener('click', () => go(Number(b.dataset.seek))));
-    for (const k in vids) vids[k].addEventListener('timeupdate', () => {
-      if (vids[k] !== active()) return;
+    const loop = () => {
+      follow(active());
+      if (standbyOK || pending) follow(other());
+      if (pending && Math.abs(audio.currentTime - other().currentTime) < 0.06 && !other().paused) { const p = pending; pending = null; p(); }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+
+    // ---- transport
+    const ui = () => {
+      frame.classList.toggle('playing', playing());
+      const t = audio.currentTime || 0;
+      timeEl.textContent = `${fmt(t)} / ${fmt(DURATION)}`;
+      if (document.activeElement !== seekBar) seekBar.value = t.toFixed(1);
+      toggles.forEach((b) => b.setAttribute('aria-label', playing() ? 'Pause' : (b.classList.contains('film-big') ? 'Play the demo video' : 'Play')));
       let at = -1;
-      chapters.forEach((b, n) => { if (vids[k].currentTime >= Number(b.dataset.seek) - 0.2) at = n; });
+      chapters.forEach((b, n) => { if (t >= Number(b.dataset.seek) - 0.2) at = n; });
       chapters.forEach((b, n) => b.setAttribute('aria-current', String(n === at)));
+    };
+    const prime = async () => {
+      frame.classList.add('started');
+      await Promise.all([ready(audio), ready(active()), standbyOK ? ready(other()) : null]);
+    };
+    const play = async () => {
+      await prime();
+      if (audio.ended) audio.currentTime = 0;
+      for (const v of standbyOK ? [active(), other()] : [active()]) if (Math.abs(v.currentTime - audio.currentTime) > 0.1) v.currentTime = audio.currentTime;
+      await start(audio);
+    };
+    const pause = () => { audio.pause(); for (const k in vids) vids[k].pause(); };
+    const seekTo = async (t) => {
+      await prime();
+      audio.currentTime = t;
+      for (const k in vids) if (vids[k].readyState >= 1) vids[k].currentTime = t;
+      ui();
+    };
+    toggles.forEach((b) => b.addEventListener('click', () => (playing() ? pause() : play())));
+    seekBar.addEventListener('input', () => seekTo(Number(seekBar.value)));
+    muteBtn.addEventListener('click', () => { audio.muted = !audio.muted; muteBtn.setAttribute('aria-pressed', String(audio.muted)); muteBtn.setAttribute('aria-label', audio.muted ? 'Unmute' : 'Mute'); });
+    fsBtn.addEventListener('click', () => {
+      if (document.fullscreenElement) return document.exitFullscreen();
+      if (frame.requestFullscreen) frame.requestFullscreen().catch(() => {});
+      else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+      else if (active().webkitEnterFullscreen) active().webkitEnterFullscreen(); // iPhone: native player, picture only
     });
+    for (const ev of ['play', 'pause', 'timeupdate', 'seeked', 'ended']) audio.addEventListener(ev, ui);
+    audio.addEventListener('ended', () => { for (const k in vids) vids[k].pause(); });
+    chapters.forEach((b) => b.addEventListener('click', async () => { await seekTo(Number(b.dataset.seek)); play(); }));
     document.querySelectorAll('[data-play-film]').forEach((a) => a.addEventListener('click', (e) => {
       e.preventDefault();
       film.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
-      go();
+      play();
     }));
+    frame.addEventListener('keydown', (e) => {
+      if (e.target === seekBar) return;
+      if (e.key === ' ' || e.key === 'k') { e.preventDefault(); playing() ? pause() : play(); }
+    });
+    // Hide the bar after 2.5 s without pointer movement while playing.
+    let idle;
+    const wake = () => { frame.classList.remove('idle'); clearTimeout(idle); idle = setTimeout(() => frame.classList.add('idle'), 2500); };
+    for (const ev of ['pointermove', 'pointerdown', 'focusin', 'keydown']) frame.addEventListener(ev, wake);
+    audio.addEventListener('play', wake);
+    audio.addEventListener('pause', () => frame.classList.remove('idle'));
+    ui();
+
+    // ---- theme switch: crossfade pictures; the music keeps playing untouched
+    new MutationObserver(async () => {
+      const next = themeNow();
+      if (next === cur) return;
+      const to = vids[next];
+      pending = null;
+      const swap = () => { cur = next; mark(); };
+      if (!frame.classList.contains('started')) return swap();
+      if (!playing()) {
+        await ready(to);
+        to.currentTime = audio.currentTime;
+        if (to.readyState < 2) await once(to, 'seeked');
+        return swap();
+      }
+      if (!to.paused && Math.abs(audio.currentTime - to.currentTime) < 0.06) return swap(); // warm standby
+      await ready(to);
+      pending = swap; // the loop starts it on the music's clock and swaps once it is in step
+      setTimeout(() => { if (pending === swap) { pending = null; swap(); } }, 1500);
+    }).observe(root, { attributes: true, attributeFilter: ['class'] });
   }
 
   /* ---------------------------------------------------------------- reveal on scroll */
