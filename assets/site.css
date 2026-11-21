@@ -683,3 +683,4 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
   .fit-link { grid-auto-flow: column; justify-content: center; gap: var(--s6); padding: var(--s2) 0; }
   .fit-arrow svg { transform: rotate(90deg); width: 40px; margin: 14px 0; }
 }
+.edr-note { margin-top: var(--s6); }
