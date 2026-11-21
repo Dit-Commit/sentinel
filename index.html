@@ -161,8 +161,8 @@
             <p class="eyebrow">03 · The blind spot</p>
             <h3>Text filters cannot read <em>the text inside an image</em></h3>
             <p class="sub">A pasted screenshot or scanned PDF carries IBANs, tax numbers and signatures as pixels. Keyword and pattern rules see none of it.</p>
-            <div class="callout"><b>Competitor research · Nov 2026</b>Of the 10 competing products we compared, only Palo Alto Enterprise DLP has confirmed OCR on images, and it runs in Palo Alto’s cloud. Microsoft Purview has partial support.</div>
-            <p class="note">Source: Panopticon competitor research, November 2026; vendor documentation.</p>
+            <div class="callout"><b>Competitor research · Nov 2026</b>OCR on images is not new: Netskope, Microsoft Purview, Zscaler, Forcepoint and Palo Alto all document it. What differs is where it runs. Sentinel reads the image on the device, before the data leaves it, and sends nothing to a cloud service for scanning.</div>
+            <p class="note">Source: the vendors’ own documentation, linked in the table on slide 07.</p>
           </article>
 
           <article class="slide">
@@ -210,22 +210,23 @@
 
           <article class="slide">
             <p class="eyebrow">07 · Architecture</p>
-            <h3>Where prompts <em>are analysed</em></h3>
+            <h3>Where images <em>are read</em></h3>
             <div class="table-scroll">
               <table class="compare">
-                <thead><tr><th scope="col">Product</th><th scope="col">Where prompts are analysed</th><th scope="col">OCR on images</th></tr></thead>
+                <thead><tr><th scope="col">Product</th><th scope="col">OCR on images</th><th scope="col">Where the OCR runs</th></tr></thead>
                 <tbody>
-                  <tr class="ours"><th scope="row">Panopticon Sentinel</th><td>On the employee’s computer</td><td>Yes, on the device</td></tr>
-                  <tr><th scope="row">Palo Alto Enterprise DLP</th><td>Palo Alto cloud</td><td>Yes, in the cloud</td></tr>
-                  <tr><th scope="row">Microsoft Purview</th><td>Microsoft 365 cloud</td><td>Partial</td></tr>
-                  <tr><th scope="row">Netskope</th><td>Netskope cloud, inline</td><td>Not confirmed</td></tr>
-                  <tr><th scope="row">Zscaler</th><td>Zscaler cloud proxy</td><td>Not confirmed</td></tr>
-                  <tr><th scope="row">Harmonic Security</th><td>Harmonic SaaS, EU hosting on request</td><td>Not confirmed</td></tr>
-                  <tr><th scope="row">SentinelOne Prompt</th><td>Vendor cloud; on-prem option since Mar 2026</td><td>Not confirmed</td></tr>
+                  <tr class="ours"><th scope="row">Panopticon Sentinel</th><td>Yes</td><td>On the employee’s device, before the data leaves it</td></tr>
+                  <tr><th scope="row">Palo Alto Enterprise DLP</th><td><a href="https://docs.paloaltonetworks.com/enterprise-dlp/activation-and-onboarding/enable-ocr" rel="noopener" aria-label="Yes: Palo Alto documentation">Yes</a></td><td>Not documented</td></tr>
+                  <tr><th scope="row">Microsoft Purview</th><td><a href="https://learn.microsoft.com/purview/ocr-learn-about" rel="noopener" aria-label="Yes: Microsoft documentation">Yes</a></td><td><a href="https://learn.microsoft.com/purview/ocr-learn-about" rel="noopener" aria-label="Microsoft cloud: Microsoft documentation">Microsoft cloud</a>: devices send images there for scanning</td></tr>
+                  <tr><th scope="row">Netskope</th><td><a href="https://docs.netskope.com/en/ocr/" rel="noopener" aria-label="Yes: Netskope documentation">Yes</a></td><td>Not documented</td></tr>
+                  <tr><th scope="row">Zscaler</th><td><a href="https://www.zscaler.com/innovations/enhanced-dlp-capabilities-ocr-support-saas-security-api" rel="noopener" aria-label="Yes: Zscaler documentation">Yes</a>, inline and SaaS-API DLP</td><td>Not documented</td></tr>
+                  <tr><th scope="row">Forcepoint DLP</th><td><a href="https://help.forcepoint.com/dlp/10/dlphelp/C25E0102-640E-40DC-9BED-1B2F27430CFD.html" rel="noopener" aria-label="Yes: Forcepoint documentation">Yes</a></td><td><a href="https://help.forcepoint.com/dlp/10/dlphelp/C25E0102-640E-40DC-9BED-1B2F27430CFD.html" rel="noopener" aria-label="A separate Forcepoint DLP server: Forcepoint documentation">A separate Forcepoint DLP server</a></td></tr>
+                  <tr><th scope="row">Harmonic Security</th><td>Not documented</td><td>Not documented</td></tr>
+                  <tr><th scope="row">SentinelOne Prompt</th><td>Not documented</td><td>Not documented</td></tr>
                 </tbody>
               </table>
             </div>
-            <p class="note">Source: Panopticon competitor research, Nov 2026. “Not confirmed” means we found no evidence either way.</p>
+            <p class="note">Seven products compared, from each vendor’s own documentation (Nov 2026); links open the page we used. “Not documented” means we found nothing either way.</p>
           </article>
         </div>
 
