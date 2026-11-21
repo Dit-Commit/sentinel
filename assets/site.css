@@ -534,6 +534,31 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
 /* The dashboard, shown rather than described. */
 /* Dashboard gallery: one page at a time, in the site's current theme. Wide screens put the arrows in
    the margin beside the image; narrower ones put them under it, around the dots. */
+/* Demo video above the dashboard gallery: same frame as the gallery, chapters underneath. */
+.film { margin: 0 0 var(--s7); }
+.film-frame {
+  border-radius: calc(var(--r-panel) + 4px); overflow: hidden; background: var(--surface);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 2px 6px rgb(15 23 42 / 6%), 0 30px 80px rgb(15 23 42 / 18%);
+}
+.dark .film-frame { box-shadow: 0 2px 6px rgb(0 0 0 / 30%), 0 30px 80px rgb(0 0 0 / 50%); }
+.film video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; background: var(--surface); }
+.film-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s4) var(--s6); margin-top: var(--s4); }
+.film-cap { color: var(--ink-2); max-width: 62ch; }
+.film-cap b { display: block; color: var(--ink); font-weight: 600; margin-bottom: var(--s1); }
+.film-chapters { display: flex; flex-wrap: wrap; gap: var(--s2); list-style: none; padding: 0; margin: 0; flex: none; }
+.film-chapters button {
+  display: inline-flex; align-items: center; gap: var(--s2); min-height: 40px; padding: 0 var(--s4);
+  border-radius: 999px; border: 1px solid var(--glass-border); background: var(--card-glass); color: var(--ink);
+  font: 500 var(--t-body)/1 var(--font-sans); cursor: pointer;
+  transition: background var(--motion-quick) var(--ease), border-color var(--motion-quick);
+}
+.film-chapters button:hover { border-color: var(--accent); }
+.film-chapters button[aria-current="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.film-chapters span { font: 600 var(--t-small)/1 var(--font-mono); color: var(--ink-3); }
+.film-chapters button[aria-current="true"] span { color: var(--accent); }
+@media (max-width: 900px) { .film-foot { flex-direction: column; } }
+
 .gallery { --arrow: 48px; width: 100%; margin: 0 0 var(--s7); }
 .gallery:focus-visible { outline-offset: 6px; border-radius: calc(var(--r-panel) + 6px); }
 .gallery-stage { position: relative; }

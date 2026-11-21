@@ -9,7 +9,8 @@ Static HTML, CSS and JavaScript: no build step, no external requests (fonts are 
 | `pricing.html` | Four plans, seat calculator, volume discounts, getting started, FAQ |
 | `404.html` | Not-found page served by GitHub Pages |
 | `assets/site.css` | Design tokens and styles (Slate theme from the Sentinel dashboard, light and dark) |
-| `assets/site.js` | Theme toggle, Game of Life hero, presentation controls, pricing calculator |
+| `assets/site.js` | Theme toggle, Game of Life hero, presentation controls, pricing calculator, demo video chapters |
+| `assets/video/` | The 3-minute demo video (WebM VP9 + MP4 H.264 fallback, poster), shown above the dashboard gallery |
 
 ## Run locally
 

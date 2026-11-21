@@ -250,6 +250,33 @@
     show(0);
   }
 
+  /* ---------------------------------------------------------------- demo video chapters */
+  const film = document.querySelector('[data-film]');
+  if (film) {
+    const video = film.querySelector('video');
+    const chapters = [...film.querySelectorAll('[data-seek]')];
+    const play = (t) => {
+      if (t !== undefined) video.currentTime = t;
+      const p = video.play(); if (p && p.catch) p.catch(() => {});
+    };
+    chapters.forEach((b) => b.addEventListener('click', () => {
+      const t = Number(b.dataset.seek);
+      // preload="none": wait for metadata before seeking, or the seek is lost.
+      if (video.readyState < 1) { video.addEventListener('loadedmetadata', () => play(t), { once: true }); video.load(); }
+      else play(t);
+    }));
+    video.addEventListener('timeupdate', () => {
+      let cur = -1;
+      chapters.forEach((b, k) => { if (video.currentTime >= Number(b.dataset.seek) - 0.2) cur = k; });
+      chapters.forEach((b, k) => b.setAttribute('aria-current', String(k === cur)));
+    });
+    document.querySelectorAll('[data-play-film]').forEach((a) => a.addEventListener('click', (e) => {
+      e.preventDefault();
+      film.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
+      play();
+    }));
+  }
+
   /* ---------------------------------------------------------------- reveal on scroll */
   const reveals = document.querySelectorAll('.reveal, .scale');
   if ('IntersectionObserver' in window && !reduced()) {
