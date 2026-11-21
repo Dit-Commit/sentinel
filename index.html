@@ -185,7 +185,7 @@
               <li><span class="k">01 · Capture</span><h4>Screenshot or scan</h4><p>A screenshot or scanned PDF is pasted or attached to an AI tool.</p></li>
               <li><span class="k">02 · OCR</span><h4>Read on the device</h4><p>Text is extracted locally. No image is uploaded anywhere for analysis.</p></li>
               <li><span class="k">03 · Validate</span><h4>Checksums, not guesses</h4><p>IBAN mod-97, card Luhn, AFM check digit, 11-digit AMKA, API-key formats, names.</p></li>
-              <li><span class="k">04 · Policy</span><h4>Log, warn, redact, block</h4><p>If a scan fails, the policy can block the send.</p></li>
+              <li><span class="k">04 · Policy</span><h4>Log, warn, redact, block</h4><p>Fails closed by default: if a scan fails, the send is blocked. A policy can switch to fail open.</p></li>
             </ol>
             <p class="note">The same detectors check typed prompts, desktop apps and terminal agents.</p>
           </article>
@@ -347,7 +347,7 @@
         <li><span class="k">05</span><h3>Every AI surface</h3><p>Browser, desktop apps, MCP, local models, and terminal agents on Linux.</p></li>
         <li><span class="k">06</span><h3>Redaction</h3><p>Employees still get an answer. Log, warn or block also available.</p></li>
         <li><span class="k">07</span><h3>Company accounts</h3><p>Personal AI accounts refused; approved tools stay open.</p></li>
-        <li><span class="k">08</span><h3>Fail-closed option</h3><p>If a scan fails, the policy can block the send.</p></li>
+        <li><span class="k">08</span><h3>Fail-closed by default</h3><p>Fails closed by default: if a scan fails, the send is blocked. A policy can switch to fail open.</p></li>
       </ul>
     </div>
   </section>
@@ -492,7 +492,7 @@
         </div>
         <div class="paper">
           <h3>Policies and AI tools</h3>
-          <p>The effective policy in plain words, per company, department or person. Scan errors fail closed. Every tool that needs review, with who used it and whether sensitive data was involved.</p>
+          <p>The effective policy in plain words, per company, department or person. Fails closed by default: if a scan fails, the send is blocked. A policy can switch to fail open. Every tool that needs review, with who used it and whether sensitive data was involved.</p>
         </div>
         <div class="paper">
           <h3>Devices and people</h3>
