@@ -369,7 +369,7 @@
       const discover = document.querySelector('[data-estimate="discover"]');
       if (discover) {
         discover.classList.toggle('na', users > 50);
-        discover.querySelector('.value').textContent = users > 50 ? 'Audit covers 50 laptops' : '€0';
+        discover.querySelector('.value').textContent = users > 50 ? 'Audit covers 50 computers' : '€0';
         discover.querySelector('.why').textContent = users > 50 ? 'Start with a sample of 50; the paid pilot covers up to 200.' : '30 days, inventory-only mode';
       }
       return users;
