@@ -58,7 +58,7 @@
       <div>
         <p class="eyebrow">Shadow-AI data protection</p>
         <h1 id="hero-title">Use AI.<br><span>Keep your data.</span></h1>
-        <p class="lead">On-device OCR and masking for every AI tool your company uses, on your own servers. Typed prompts, screenshots and scanned PDFs are checked on the laptop before anything is sent. The AI tool gets masked text; the employee still gets an answer.</p>
+        <p class="lead">On-device OCR and masking for every AI tool your company uses, on your own servers. Typed prompts, screenshots and scanned PDFs are checked on the device before anything is sent. The AI tool gets masked text; the employee still gets an answer.</p>
         <div class="actions">
           <a class="btn btn-primary" href="pricing.html#audit">Start the free 30-day audit
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -69,12 +69,12 @@
         </ul>
       </div>
 
-      <figure class="demo" data-demo aria-label="Example: an IBAN typed into ChatGPT is masked on the laptop">
+      <figure class="demo" data-demo aria-label="Example: an IBAN typed into ChatGPT is masked on the device">
         <div class="demo-head">
           <span><span class="mono">ChatGPT</span> · personal account</span>
           <span>Finance · 09:14</span>
         </div>
-        <p class="demo-label">Typed on the laptop</p>
+        <p class="demo-label">Typed on the device</p>
         <p class="demo-prompt">“Reconcile Q3 payments to <span class="hit">GR16 0110 1250 0000 0001 2300 695</span> and flag mismatches.”</p>
         <div class="demo-sent">
           <p class="demo-label">Sent to ChatGPT</p>
@@ -83,7 +83,7 @@
             <span class="outcome" data-outcome="redacted">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="5" width="12" height="6" rx="1.5"/><path d="M5 8h6"/></svg>Redacted</span>
             <span class="check">IBAN · mod-97 valid</span>
-            <span>Real value stayed on the laptop</span>
+            <span>Real value stayed on the device</span>
           </div>
         </div>
         <figcaption class="sr-only">The prompt contained a Greek IBAN. Sentinel masked it to GR16 **** **** 0695 before sending; the employee still gets an answer.</figcaption>
@@ -177,10 +177,10 @@
 
           <article class="slide">
             <p class="eyebrow">05 · On-device OCR</p>
-            <h3>Read on the laptop, <em>checked before sending</em></h3>
+            <h3>Read on the device, <em>checked before sending</em></h3>
             <ol class="steps">
               <li><span class="k">01 · Capture</span><h4>Screenshot or scan</h4><p>A screenshot or scanned PDF is pasted or attached to an AI tool.</p></li>
-              <li><span class="k">02 · OCR</span><h4>Read on the laptop</h4><p>Text is extracted locally. No image is uploaded anywhere for analysis.</p></li>
+              <li><span class="k">02 · OCR</span><h4>Read on the device</h4><p>Text is extracted locally. No image is uploaded anywhere for analysis.</p></li>
               <li><span class="k">03 · Validate</span><h4>Checksums, not guesses</h4><p>IBAN mod-97, card Luhn, AFM check digit, 11-digit AMKA, API-key formats, names.</p></li>
               <li><span class="k">04 · Policy</span><h4>Log, warn, redact, block</h4><p>If a scan fails, the policy can block the send.</p></li>
             </ol>
@@ -189,19 +189,19 @@
 
           <article class="slide">
             <p class="eyebrow">06 · Data flow</p>
-            <h3>What <em>stays on the laptop</em></h3>
+            <h3>What <em>stays on the device</em></h3>
             <div class="flow">
               <div class="stays">
-                <h4>Stays on the laptop</h4>
+                <h4>Stays on the device</h4>
                 <ol><li>The raw prompt text</li><li>Text read from screenshots and scans</li><li>Real values: IBAN, AFM, AMKA, keys, names</li></ol>
               </div>
               <div>
-                <h4>Leaves the laptop</h4>
+                <h4>Leaves the device</h4>
                 <ol><li>To the AI tool: the masked prompt, or nothing if blocked</li><li>To your server: a masked event with data type, masked snippet and a one-way hash</li><li>To Panopticon: nothing; the backend runs on your servers</li></ol>
               </div>
             </div>
             <div class="mask-line">
-              <div><span>On the laptop</span><span>GR16 0110 1250 0000 0001 2300 695</span></div>
+              <div><span>On the device</span><span>GR16 0110 1250 0000 0001 2300 695</span></div>
               <div><span>Sent onward</span><span style="color: var(--accent)">GR16 **** **** 0695</span></div>
             </div>
           </article>
@@ -213,7 +213,7 @@
               <table class="compare">
                 <thead><tr><th scope="col">Product</th><th scope="col">Where prompts are analysed</th><th scope="col">OCR on images</th></tr></thead>
                 <tbody>
-                  <tr class="ours"><th scope="row">Panopticon Sentinel</th><td>On the employee’s laptop</td><td>Yes, on the laptop</td></tr>
+                  <tr class="ours"><th scope="row">Panopticon Sentinel</th><td>On the employee’s computer</td><td>Yes, on the device</td></tr>
                   <tr><th scope="row">Palo Alto Enterprise DLP</th><td>Palo Alto cloud</td><td>Yes, in the cloud</td></tr>
                   <tr><th scope="row">Microsoft Purview</th><td>Microsoft 365 cloud</td><td>Partial</td></tr>
                   <tr><th scope="row">Netskope</th><td>Netskope cloud, inline</td><td>Not confirmed</td></tr>
@@ -245,7 +245,7 @@
       <div class="section-head reveal">
         <p class="eyebrow">Worked example</p>
         <h2 id="how-title">A scanned contract, attached in ChatGPT</h2>
-        <p class="lead">The contract is an image, so a text filter sees nothing. Sentinel reads it on the laptop, finds a name, a tax number and an IBAN, and applies your policy before the upload leaves.</p>
+        <p class="lead">The contract is an image, so a text filter sees nothing. Sentinel reads it on the device, finds a name, a tax number and an IBAN, and applies your policy before the upload leaves.</p>
       </div>
       <div class="example reveal">
         <div>
@@ -313,7 +313,7 @@
           <li><span class="k">01</span><h3>Data flowing to an AI</h3><p>A sensitive file read inside a process tree that talks to an AI service is reported as a taint flow.</p></li>
           <li><span class="k">02</span><h3>Decoy files</h3><p>Plant fake secrets. Any process that opens one is reported at once: there is no innocent reason to.</p></li>
           <li><span class="k">03</span><h3>Agents at work</h3><p>The think, run, think-again rhythm of an agent shows in its process tree, whatever the agent prints.</p></li>
-          <li><span class="k">04</span><h3>Local models</h3><p>Model files loaded on the laptop are listed, so offline AI is in the inventory too.</p></li>
+          <li><span class="k">04</span><h3>Local models</h3><p>Model files loaded on the device are listed, so offline AI is in the inventory too.</p></li>
           <li><span class="k">05</span><h3>Freeze, if you choose</h3><p>With a block policy, a decoy or taint hit pauses the agent’s processes until the policy changes. Off by default.</p></li>
         </ul>
       </div>
@@ -335,7 +335,7 @@
         <h2 id="adv-title">Built for the data your company actually handles</h2>
       </div>
       <ul class="features reveal">
-        <li><span class="k">01</span><h3>On-device OCR</h3><p>Screenshots and scanned PDFs are read on the laptop.</p></li>
+        <li><span class="k">01</span><h3>On-device OCR</h3><p>Screenshots and scanned PDFs are read on the device.</p></li>
         <li><span class="k">02</span><h3>Raw data stays local</h3><p>Real values never leave the employee’s machine.</p></li>
         <li><span class="k">03</span><h3>Self-hosted</h3><p>Dashboard and logs run on your own servers.</p></li>
         <li><span class="k">04</span><h3>Greek identifiers</h3><p>AFM, AMKA, Greek IBANs and names, checked with checksums.</p></li>
@@ -357,7 +357,7 @@
       </div>
       <div class="fit reveal">
         <div class="fit-col">
-          <p class="fit-label">On each laptop</p>
+          <p class="fit-label">On each computer</p>
           <div class="paper fit-card"><h3>Browser extension</h3><p>Chrome and Edge. Checks typed prompts, pastes and files inside the page, before they are sent.</p></div>
           <div class="paper fit-card"><h3>Desktop agent</h3><p>Other browsers and desktop apps, through a local proxy for AI sites only. Reads screenshots and scans.</p></div>
           <div class="paper fit-card"><h3>Linux EDR sensor</h3><p>Terminal AI agents and local models, seen from the kernel. Linux only for now.</p></div>
@@ -378,7 +378,7 @@
           <div class="paper fit-card"><h3>Dashboard</h3><p>Incidents, policies and the AI tool inventory. People appear as pseudonyms until a reviewer reveals one.</p></div>
         </div>
       </div>
-      <p class="source fit-note">Nothing goes to Panopticon or to any third party: the text and files are checked on the laptop, and the server only receives what was found, a masked extract and a keyed hash.</p>
+      <p class="source fit-note">Nothing goes to Panopticon or to any third party: the text and files are checked on the device, and the server only receives what was found, a masked extract and a keyed hash.</p>
     </div>
   </section>
 
@@ -469,11 +469,11 @@
       <div class="faq reveal">
         <details>
           <summary>Where do our prompts and files go?</summary>
-          <p>They are checked on the laptop. Your own server receives the type of data found, how many, a masked extract such as <span class="mono">GR16 **** **** 0695</span> and a keyed one-way hash. Nothing reaches Panopticon or any third party: the server and the dashboard run on your infrastructure.</p>
+          <p>They are checked on the device. Your own server receives the type of data found, how many, a masked extract such as <span class="mono">GR16 **** **** 0695</span> and a keyed one-way hash. Nothing reaches Panopticon or any third party: the server and the dashboard run on your infrastructure.</p>
         </details>
         <details>
-          <summary>Do we need to install a certificate on every laptop?</summary>
-          <p>Not for the browser extension. The desktop agent reads HTTPS to AI sites only (a proxy auto-config file sends just those hosts through it), so its certificate must be trusted on each laptop, as with any inspecting proxy. Apps that pin their certificates are out of its reach; on Linux, the EDR sensor still sees terminal agents.</p>
+          <summary>Do we need to install a certificate on every computer?</summary>
+          <p>Not for the browser extension. The desktop agent reads HTTPS to AI sites only (a proxy auto-config file sends just those hosts through it), so its certificate must be trusted on each computer, as with any inspecting proxy. Apps that pin their certificates are out of its reach; on Linux, the EDR sensor still sees terminal agents.</p>
         </details>
         <details>
           <summary>Which operating systems are supported?</summary>
@@ -485,7 +485,7 @@
         </details>
         <details>
           <summary>What if someone turns a sensor off?</summary>
-          <p>Every sensor checks in with the server. If the extension or the EDR sensor goes quiet while the same laptop is still online, the server raises a high-risk alert.</p>
+          <p>Every sensor checks in with the server. If the extension or the EDR sensor goes quiet while the same computer is still online, the server raises a high-risk alert.</p>
         </details>
         <details>
           <summary>Does Sentinel send our data to an AI to analyse it?</summary>
@@ -500,7 +500,7 @@
     <div class="wrap reveal">
       <p class="eyebrow">Next step</p>
       <h2 id="close-title">Use AI.<br><span>Keep your data.</span></h2>
-      <p class="lead">Start with a free 30-day Shadow-AI Discovery Audit on up to 50 laptops. You get an inventory of every AI tool in use and a risk report mapped to GDPR, the AI Act and NIS2.</p>
+      <p class="lead">Start with a free 30-day Shadow-AI Discovery Audit on up to 50 computers. You get an inventory of every AI tool in use and a risk report mapped to GDPR, the AI Act and NIS2.</p>
       <div class="actions">
         <a class="btn btn-primary" href="pricing.html#audit">Book the free audit</a>
         <a class="btn" href="pricing.html">See pricing</a>
