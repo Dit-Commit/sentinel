@@ -776,3 +776,26 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
   font: 600 11px/1.6 var(--font-mono); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
 .tag-roadmap { color: var(--ink-2); background: color-mix(in srgb, var(--ink) 9%, transparent); }
 .tag-partial { color: var(--accent); background: var(--accent-soft); }
+
+/* Video transcript under the chapters */
+.film-transcript { margin-top: var(--s4); border-top: 1px solid var(--glass-border); padding-top: var(--s3); }
+.film-transcript summary { cursor: pointer; font-weight: 600; color: var(--ink); width: fit-content; }
+.film-transcript ol { list-style: none; padding: 0; margin: var(--s3) 0 0; display: grid; gap: var(--s2); max-width: 78ch; }
+.film-transcript li { display: grid; grid-template-columns: 3.4rem 1fr; gap: var(--s3); align-items: baseline; padding: var(--s1) var(--s2); border-radius: var(--r-control); transition: background var(--motion-quick); }
+.film-transcript li.now { background: var(--accent-soft); }
+.film-transcript button { border: 0; background: none; padding: 0; cursor: pointer; font: 500 var(--t-small)/1.6 var(--font-mono); color: var(--accent); text-align: left; }
+.film-transcript button:hover { text-decoration: underline; }
+.film-transcript p { color: var(--ink-2); }
+.film-transcript b { color: var(--ink); font-weight: 600; }
+
+/* Slide 07 on phones: each product becomes a small card, so the "where it runs" column is never off-screen */
+@media (max-width: 640px) {
+  .table-scroll > table.compare { min-width: 0; }
+  .compare thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .compare, .compare tbody, .compare tr, .compare th, .compare td { display: block; }
+  .compare tr { padding: var(--s3) 0; border-top: 1px solid var(--border); }
+  .compare th, .compare td { border-top: 0; padding: 0; }
+  .compare tbody th { margin-bottom: var(--s1); }
+  .compare td { display: grid; grid-template-columns: 8.5rem 1fr; gap: var(--s2); font-size: var(--t-small); line-height: 1.5; }
+  .compare td::before { content: attr(data-label); font: 500 11px/1.6 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+}

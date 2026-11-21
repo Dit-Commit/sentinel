@@ -311,6 +311,9 @@
       let at = -1;
       chapters.forEach((b, n) => { if (t >= Number(b.dataset.seek) - 0.2) at = n; });
       chapters.forEach((b, n) => b.setAttribute('aria-current', String(n === at)));
+      let line = -1;
+      lines.forEach((b, n) => { if (t >= Number(b.dataset.t) - 0.2) line = n; });
+      lines.forEach((b, n) => b.closest('li').classList.toggle('now', n === line && t > 0));
     };
     const prime = async () => {
       frame.classList.add('started');
@@ -341,6 +344,9 @@
     for (const ev of ['play', 'pause', 'timeupdate', 'seeked', 'ended']) audio.addEventListener(ev, ui);
     audio.addEventListener('ended', () => { for (const k in vids) vids[k].pause(); });
     chapters.forEach((b) => b.addEventListener('click', async () => { await seekTo(Number(b.dataset.seek)); play(); }));
+    // Transcript: each timestamp plays from that moment; the current line is highlighted.
+    const lines = [...film.querySelectorAll('[data-t]')];
+    lines.forEach((b) => b.addEventListener('click', async () => { await seekTo(Number(b.dataset.t)); play(); }));
     document.querySelectorAll('[data-play-film]').forEach((a) => a.addEventListener('click', (e) => {
       e.preventDefault();
       film.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
