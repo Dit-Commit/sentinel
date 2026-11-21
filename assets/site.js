@@ -251,11 +251,9 @@
   }
 
   /* ---------------------------------------------------------------- demo video */
-  // Two recordings of the same video, light and dark, identical frame for frame; the one that
-  // matches the theme is shown. Warm standby: while the visible one plays, the other plays too,
-  // hidden and at volume 0, kept in sync with small playbackRate corrections. A theme switch is
-  // then only a crossfade. Without standby (data saver, slow connection, iOS, where volume can't
-  // be set) the other copy seeks ahead and starts in step when the theme changes (about 1.3 s).
+  // Two recordings of the same video, light and dark, identical frame for frame. The one that
+  // matches the theme is shown; on a theme switch the other seeks a little ahead, starts when the
+  // visible one reaches that moment, and they crossfade, so playback continues in the new theme.
   const film = document.querySelector('[data-film]');
   if (film) {
     const frame = film.querySelector('.film-frame');
@@ -272,112 +270,72 @@
     const seek = async (v, t) => { if (Math.abs(v.currentTime - t) < 0.02) return; v.currentTime = t; await once(v, 'seeked'); };
     const play = (v) => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
     const active = () => vids[cur];
-    const other = () => vids[cur === 'light' ? 'dark' : 'light'];
-    const conn = navigator.connection || {};
-    const probe = document.createElement('video'); probe.volume = 0.5;
-    const volumeWorks = probe.volume === 0.5;
-    const standbyOK = volumeWorks && !conn.saveData && !/(^|-)2g|3g/.test(conn.effectiveType || '');
-    let user = { volume: 1, muted: false }; // what the viewer set on the visible video
-    let fading = false;
-
-    // ---- warm standby: keep the hidden copy playing in step with the visible one
-    let syncing = false;
-    const startStandby = async () => {
-      if (!standbyOK || syncing) return;
-      const a = active(), s = other();
-      syncing = true;
-      s.muted = a.muted; s.volume = 0;
-      await ready(s);
-      if (a.paused) { syncing = false; return; }
-      await seek(s, Math.min(a.currentTime + 0.25, a.duration - 0.05));
-      play(s);
-      syncing = false;
-    };
-    const keepInStep = () => {
-      const a = active(), s = other();
-      if (standbyOK && !a.paused && !s.paused && !fading) {
-        const d = a.currentTime - s.currentTime;
-        if (Math.abs(d) > 0.6) s.currentTime = a.currentTime + 0.1;
-        else s.playbackRate = Math.abs(d) < 0.015 ? 1 : Math.min(1.25, Math.max(0.8, 1 + d * 2.5));
-      }
-      requestAnimationFrame(keepInStep);
-    };
-    requestAnimationFrame(keepInStep);
-    for (const k in vids) {
-      const v = vids[k];
-      v.addEventListener('play', () => { if (v === active()) startStandby(); });
-      v.addEventListener('pause', () => { if (v === active() && !fading) other().pause(); });
-      v.addEventListener('seeked', () => { if (v === active() && standbyOK && !v.paused) startStandby(); });
-      v.addEventListener('volumechange', () => { if (v === active() && !fading) user = { volume: v.volume, muted: v.muted }; });
-    }
-
-    // ---- the switch
-    const crossfade = (from, to, id, playing) => {
-      cur = to === vids.dark ? 'dark' : 'light';
-      mark();
-      fading = true;
-      to.muted = user.muted;
-      const ms = playing && !reduced() ? 160 : 0;
-      const t0 = performance.now();
-      const ramp = () => {
-        const k = ms ? Math.min(1, (performance.now() - t0) / ms) : 1;
-        if (id !== swap) { fading = false; return; }
-        to.volume = user.volume * k; from.volume = user.volume * (1 - k);
-        if (k < 1) return requestAnimationFrame(ramp);
-        fading = false;
-        from.playbackRate = 1;
-        if (!standbyOK || !playing) { from.pause(); from.volume = user.volume; }
-        // with standby the old copy keeps playing silently and becomes the new standby
-      };
-      ramp();
-    };
 
     new MutationObserver(async () => {
       const next = themeNow();
       if (next === cur) return;
       const from = vids[cur], to = vids[next], id = ++swap;
-      const playing = !from.paused && !from.ended;
-      if (!(from.currentTime > 0 || playing)) { cur = next; mark(); return; }
-      // Warm standby in step: switch now.
-      if (playing && !to.paused && Math.abs(from.currentTime - to.currentTime) < 0.06) {
-        to.playbackRate = 1; return crossfade(from, to, id, true);
-      }
-      if (!volumeWorks) { to.muted = true; } else { to.muted = user.muted; to.volume = 0; }
+      const started = from.currentTime > 0 || !from.paused;
+      if (!started) { cur = next; mark(); return; }
       await ready(to);
       if (id !== swap) return;
+      const playing = !from.paused && !from.ended;
+      // Only the visible video is heard: the other starts muted and takes over the viewer's
+      // volume and mute setting at the swap (two copies 25 ms apart would sound like an echo).
+      const heard = { muted: from.muted, volume: from.volume };
+      to.muted = heard.muted;
+      // Volume 0 rather than muted while syncing: unmuting restarts the audio output and stalls
+      // the video for 40-80 ms (measured). iOS ignores volume, so there we fall back to muted.
+      to.volume = 0;
+      const volumeWorks = to.volume === 0;
+      if (!volumeWorks) to.muted = true;
       if (playing) {
-        // Cold switch: seek ahead of the visible video, start when it gets there, then catch up.
+        // Seek ahead of the visible video, then start exactly when it gets there.
         const at = Math.min(from.currentTime + 0.6, from.duration - 0.05);
-        if (to.paused) {
-          await seek(to, at);
-          if (id !== swap) return;
-          await new Promise((res) => {
-            const tick = () => (id !== swap || from.paused || from.currentTime >= at ? res() : requestAnimationFrame(tick));
-            tick();
-          });
-          if (id !== swap) return;
-          play(to);
-        }
+        await seek(to, at);
+        if (id !== swap) return;
+        await new Promise((res) => {
+          const tick = () => (id !== swap || from.paused || from.currentTime >= at ? res() : requestAnimationFrame(tick));
+          tick();
+        });
+        if (id !== swap) return;
+        play(to);
+        // Starting a video with sound takes a moment (about 0.1 s here), so the hidden copy
+        // catches up by playing slightly faster or slower, then the crossfade starts in sync.
         await new Promise((res) => {
           const until = performance.now() + 1500;
           const tick = () => {
-            if (id !== swap || from.paused || performance.now() > until) { to.playbackRate = 1; return res(); }
+            if (id !== swap || from.paused) { to.playbackRate = 1; return res(); }
             const d = from.currentTime - to.currentTime;
-            const moving = !to.paused && to.currentTime > Math.min(at, from.currentTime) + 0.08;
+            // Judge only once the copy is really moving (right after play() both read the same time).
+            const moving = !to.paused && to.currentTime > at + 0.08;
             if (moving && Math.abs(d) < 0.03) { to.playbackRate = 1; return res(); }
+            if (performance.now() > until) { to.playbackRate = 1; return res(); }
             if (moving) to.playbackRate = Math.min(1.5, Math.max(0.75, 1 + d * 2.5));
             requestAnimationFrame(tick);
           };
           tick();
         });
         if (id !== swap) return;
-        if (!volumeWorks) { from.muted = true; to.muted = user.muted; }
-        crossfade(from, to, id, true);
       } else {
         await seek(to, from.currentTime);
         if (id !== swap) return;
-        crossfade(from, to, id, false);
       }
+      cur = next; mark();
+      // Audio crossfade alongside the picture, then the old copy pauses at full volume again.
+      const fade = playing && !reduced() ? 180 : 0;
+      const t0 = performance.now();
+      const ramp = () => {
+        const k = fade ? Math.min(1, (performance.now() - t0) / fade) : 1;
+        if (id !== swap) return;
+        if (volumeWorks) { to.volume = heard.volume * k; from.volume = heard.volume * (1 - k); }
+        else if (k >= 1) { to.muted = heard.muted; from.muted = true; }
+        if (k < 1) return requestAnimationFrame(ramp);
+        from.pause();
+        from.volume = heard.volume; from.muted = heard.muted;
+      };
+      if (!volumeWorks) { to.muted = heard.muted; from.muted = true; }
+      ramp();
     }).observe(root, { attributes: true, attributeFilter: ['class'] });
 
     const go = async (t) => {
