@@ -389,14 +389,15 @@
   </section>
 
   <!-- The dashboard -->
-  <section aria-labelledby="product-title">
+  <!-- Demo video: the whole story, live (all three sensors, then the dashboard) -->
+  <section id="demo" aria-labelledby="demo-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <p class="eyebrow">The dashboard</p>
-        <h2 id="product-title">One calm place to see and decide</h2>
-        <p class="lead">Runs on your servers. New detections appear within seconds; policy changes roll out in about 30.</p>
+        <p class="eyebrow">See it work</p>
+        <h2 id="demo-title">The whole story, live</h2>
+        <p class="lead">Two and a half minutes on the real product: the browser extension on claude.ai, the desktop agent reading a scanned contract, the Linux sensor catching a terminal agent, and the dashboard.</p>
       </div>
-      <figure class="film reveal" id="film" data-film aria-labelledby="film-title">
+      <figure class="film reveal" id="film" data-film aria-labelledby="demo-title">
         <!-- One silent recording per theme, frame for frame the same, plus one music track that keeps
              time. A theme switch crossfades the pictures; the sound is never touched (site.js, "demo video"). -->
         <div class="film-frame" data-film-frame>
@@ -424,8 +425,7 @@
           </div>
         </div>
         <figcaption class="film-foot">
-          <p class="film-cap"><b id="film-title">The whole story, live, in two and a half minutes.</b>
-            <span id="film-desc">Recorded on the real product: the extension on claude.ai, the desktop agent reading a scanned contract, the Linux sensor catching a terminal agent, and this dashboard. It follows the site’s light or dark theme.</span></p>
+          <p class="film-cap"><span id="film-desc">It follows the site’s light or dark theme. Captions are in the picture; the full transcript is below.</span></p>
           <ol class="film-chapters" aria-label="Jump to a part of the video">
             <li><button type="button" data-seek="6.5"><span>1</span>Browser</button></li>
             <li><button type="button" data-seek="34.7"><span>2</span>Desktop apps</button></li>
@@ -464,6 +464,16 @@
           </ol>
         </details>
       </figure>
+    </div>
+  </section>
+
+  <section aria-labelledby="product-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">The dashboard</p>
+        <h2 id="product-title">One calm place to see and decide</h2>
+        <p class="lead">Runs on your servers. New detections appear within seconds; policy changes roll out in about 30.</p>
+      </div>
       <div class="gallery reveal" data-gallery role="region" aria-roledescription="carousel" aria-label="Dashboard pages" tabindex="0">
         <div class="gallery-stage">
           <button type="button" class="gallery-arrow side prev" data-gprev aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
