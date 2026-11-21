@@ -802,3 +802,10 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
   .compare td { display: grid; grid-template-columns: 8.5rem 1fr; gap: var(--s2); font-size: var(--t-small); line-height: 1.5; }
   .compare td::before { content: attr(data-label); font: 500 11px/1.6 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
 }
+
+/* "See it work": the Demo links land with the eyebrow just under the fixed header (cancel the section's
+   top padding), the heading is compact, and the video is capped so header + heading + video fit the
+   screen (16:10; big screens keep the full width). */
+#demo { scroll-margin-top: calc(-1 * var(--s8) + 8px); }
+#demo .section-head { margin-bottom: var(--s5); gap: var(--s2); }
+#demo .film { max-width: min(100%, calc((100svh - 268px) * 1.6)); }
