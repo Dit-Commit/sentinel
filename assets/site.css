@@ -769,3 +769,9 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
 
 /* 95% intervals under the EDR results */
 .stat .ci { margin-top: var(--s2); font: 500 var(--t-small)/1.4 var(--font-mono); color: var(--ink-3); }
+
+/* Status tags for features that are not fully built yet (roadmap or partial) */
+.tag { display: inline-block; margin-left: var(--s1); padding: 1px 8px; border-radius: 999px; vertical-align: 1px;
+  font: 600 11px/1.6 var(--font-mono); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+.tag-roadmap { color: var(--ink-2); background: color-mix(in srgb, var(--ink) 9%, transparent); }
+.tag-partial { color: var(--accent); background: var(--accent-soft); }
