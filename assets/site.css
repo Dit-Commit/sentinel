@@ -443,6 +443,7 @@ h3 { font-size: var(--t-lead); letter-spacing: -.01em; line-height: 1.3; }
 .page-head { padding-top: calc(var(--s8) + 56px); padding-bottom: var(--s7); }
 .page-head h1 { font-size: var(--t-display); letter-spacing: -.04em; line-height: 1.02; margin: var(--s4) 0 var(--s4); }
 
+.calc[hidden] { display: none; } /* without JavaScript the controls would do nothing */
 .calc { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4) var(--s6); margin-bottom: var(--s5); }
 .calc label { display: inline-flex; align-items: center; gap: var(--s3); font-weight: 500; }
 .calc input[type="number"] {
