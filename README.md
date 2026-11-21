@@ -22,9 +22,9 @@ python3 -m http.server 8000
 ## Publish on GitHub Pages
 
 Settings → Pages → Build and deployment → Source: **Deploy from a branch**, branch `main`, folder `/ (root)`.
-The site is then served at `https://dit-commit.github.io/www/`. `.nojekyll` makes Pages serve the files as they are.
+The site is then served at `https://dit-commit.github.io/sentinel/`. `.nojekyll` makes Pages serve the files as they are.
 
-On a custom domain, add a `CNAME` file with the domain and change `<base href="/www/">` in `404.html` to `/`.
+On a custom domain, add a `CNAME` file with the domain and change `<base href="/sentinel/">` in `404.html` to `/`.
 
 
 ## Cache busting
