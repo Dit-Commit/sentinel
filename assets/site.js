@@ -250,30 +250,72 @@
     show(0);
   }
 
-  /* ---------------------------------------------------------------- demo video chapters */
+  /* ---------------------------------------------------------------- demo video */
+  // Two recordings of the same video, light and dark, identical frame for frame. The one that
+  // matches the theme is shown; on a theme switch the other seeks a little ahead, starts when the
+  // visible one reaches that moment, and they crossfade, so playback continues in the new theme.
   const film = document.querySelector('[data-film]');
   if (film) {
-    const video = film.querySelector('video');
+    const frame = film.querySelector('.film-frame');
+    const vids = { light: film.querySelector('[data-film-theme="light"]'), dark: film.querySelector('[data-film-theme="dark"]') };
     const chapters = [...film.querySelectorAll('[data-seek]')];
-    const play = (t) => {
-      if (t !== undefined) video.currentTime = t;
-      const p = video.play(); if (p && p.catch) p.catch(() => {});
+    const themeNow = () => (root.classList.contains('dark') ? 'dark' : 'light');
+    let cur = themeNow();
+    let swap = 0;
+    frame.classList.add('js');
+    const mark = () => { for (const k in vids) vids[k].classList.toggle('is-on', k === cur); };
+    mark();
+    const once = (el, ev) => new Promise((res) => el.addEventListener(ev, res, { once: true }));
+    const ready = async (v) => { if (v.readyState < 1) { v.preload = 'auto'; v.load(); await once(v, 'loadedmetadata'); } };
+    const seek = async (v, t) => { if (Math.abs(v.currentTime - t) < 0.02) return; v.currentTime = t; await once(v, 'seeked'); };
+    const play = (v) => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    const active = () => vids[cur];
+
+    new MutationObserver(async () => {
+      const next = themeNow();
+      if (next === cur) return;
+      const from = vids[cur], to = vids[next], id = ++swap;
+      const started = from.currentTime > 0 || !from.paused;
+      if (!started) { cur = next; mark(); return; }
+      await ready(to);
+      if (id !== swap) return;
+      const playing = !from.paused && !from.ended;
+      if (playing) {
+        // Seek ahead of the visible video, then start exactly when it gets there.
+        const at = Math.min(from.currentTime + 0.6, from.duration - 0.05);
+        await seek(to, at);
+        if (id !== swap) return;
+        await new Promise((res) => {
+          const tick = () => (id !== swap || from.paused || from.currentTime >= at ? res() : requestAnimationFrame(tick));
+          tick();
+        });
+        if (id !== swap) return;
+        play(to);
+      } else {
+        await seek(to, from.currentTime);
+        if (id !== swap) return;
+      }
+      cur = next; mark();
+      if (playing) setTimeout(() => { if (id === swap) from.pause(); }, reduced() ? 0 : 520);
+    }).observe(root, { attributes: true, attributeFilter: ['class'] });
+
+    const go = async (t) => {
+      const v = active(); swap++;
+      await ready(v);
+      if (t !== undefined) await seek(v, t);
+      play(v);
     };
-    chapters.forEach((b) => b.addEventListener('click', () => {
-      const t = Number(b.dataset.seek);
-      // preload="none": wait for metadata before seeking, or the seek is lost.
-      if (video.readyState < 1) { video.addEventListener('loadedmetadata', () => play(t), { once: true }); video.load(); }
-      else play(t);
-    }));
-    video.addEventListener('timeupdate', () => {
-      let cur = -1;
-      chapters.forEach((b, k) => { if (video.currentTime >= Number(b.dataset.seek) - 0.2) cur = k; });
-      chapters.forEach((b, k) => b.setAttribute('aria-current', String(k === cur)));
+    chapters.forEach((b) => b.addEventListener('click', () => go(Number(b.dataset.seek))));
+    for (const k in vids) vids[k].addEventListener('timeupdate', () => {
+      if (vids[k] !== active()) return;
+      let at = -1;
+      chapters.forEach((b, n) => { if (vids[k].currentTime >= Number(b.dataset.seek) - 0.2) at = n; });
+      chapters.forEach((b, n) => b.setAttribute('aria-current', String(n === at)));
     });
     document.querySelectorAll('[data-play-film]').forEach((a) => a.addEventListener('click', (e) => {
       e.preventDefault();
       film.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
-      play();
+      go();
     }));
   }
 

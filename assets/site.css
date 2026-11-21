@@ -542,7 +542,15 @@ footer { padding: var(--s7) 0 var(--s7); border-top: 1px solid var(--border); co
   box-shadow: 0 2px 6px rgb(15 23 42 / 6%), 0 30px 80px rgb(15 23 42 / 18%);
 }
 .dark .film-frame { box-shadow: 0 2px 6px rgb(0 0 0 / 30%), 0 30px 80px rgb(0 0 0 / 50%); }
-.film video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; background: var(--surface); }
+.film-frame { display: grid; }
+.film video { grid-area: 1 / 1; display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; background: var(--surface); transition: opacity .5s var(--ease); }
+/* Before the script runs: show the version for the current theme. */
+.film-v[data-film-theme="dark"], .dark .film-v[data-film-theme="light"] { opacity: 0; pointer-events: none; }
+.dark .film-v[data-film-theme="dark"] { opacity: 1; pointer-events: auto; }
+/* After: the script decides, so a crossfade can finish after the class changes. */
+.film-frame.js .film-v { opacity: 0; pointer-events: none; }
+.film-frame.js .film-v.is-on { opacity: 1; pointer-events: auto; z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .film video { transition: none; } }
 .film-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s4) var(--s6); margin-top: var(--s4); }
 .film-cap { color: var(--ink-2); max-width: 62ch; }
 .film-cap b { display: block; color: var(--ink); font-weight: 600; margin-bottom: var(--s1); }
